@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALU Connect — UI Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & ROOT ===== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    /* ── ALU Official Brand Colors (extracted from alueducation.com) ── */
+    --navy:       #002E6D;   /* primary brand navy */
+    --navy-lite:  #1A4FA0;   /* lighter navy for hover/active states */
+    --navy-dim:   #001A42;   /* deepest navy for dark surfaces */
+    --red:        #D00D2D;   /* ALU crimson red — CTAs & accents */
+    --red-lite:   #E8304A;   /* lighter red for hover */
+    --red-dim:    #6B0616;   /* muted red tint */
+    /* ── Neutral palette ── */
+    --bg:         #00112E;   /* app background — very deep navy */
+    --surface:    #001A42;   /* cards / nav surface */
+    --card:       #002359;   /* elevated card bg */
+    --border:     #1A3A6B;   /* subtle borders */
+    --text:       #F0F4FF;   /* primary text — near white */
+    --text2:      #90AACC;   /* secondary text */
+    --text3:      #4D6A99;   /* muted / placeholder text */
+    /* ── Semantic / utility ── */
+    --gold:       #F0A500;   /* kept for badges/warnings */
+    --gold-dim:   #3d2900;
+    --blue:       #3B82F6;   /* info / link blue */
+    --teal:       #0E9E8A;   /* success state */
+    /* Aliases for legacy variable names in HTML below */
+    --green:      var(--navy);
+    --green-lite: var(--navy-lite);
+    --green-dim:  var(--navy-dim);
+  }
+  body {
+    background: #000D24;
+    min-height: 100vh;
+    font-family: 'Open Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 40px;
+  }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header { text-align: center; margin-bottom: 20px; }
+  .page-header h1 { color: var(--text); font-size: 22px; font-weight: 800; font-family: 'Montserrat', sans-serif; letter-spacing: -0.3px; }
+  .page-header h1 span { color: var(--red); }
+  .page-header p  { color: var(--text3); font-size: 12px; margin-top: 4px; }
+
+  /* ===== SCREEN NAV PILLS ===== */
+  .screen-nav {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    justify-content: center; margin-bottom: 28px;
+    max-width: 820px;
+  }
+  .nav-btn {
+    font-size: 11px; padding: 5px 13px;
+    border-radius: 20px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text2);
+    cursor: pointer; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--navy); border-color: var(--navy-lite); color: #fff;
+  }
+
+  /* ===== PHONE SHELL ===== */
+  .phone-wrap { position: relative; width: 390px; height: 844px; }
+  .phone-frame {
+    position: absolute; inset: 0;
+    border-radius: 52px;
+    border: 8px solid #2a2a2a;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.85), inset 0 0 0 1px #3c3c3c;
+    pointer-events: none; z-index: 20;
+  }
+  .phone-notch {
+    position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    width: 116px; height: 30px; background: #1c1c1c;
+    border-radius: 20px; z-index: 20; pointer-events: none;
+  }
+  .phone-screen {
+    position: absolute; inset: 8px;
+    border-radius: 46px; overflow: hidden;
+    background: var(--bg); z-index: 10;
+  }
+
+  /* ===== SCREENS ===== */
+  .screen {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    background: var(--bg); color: var(--text);
+    overflow: hidden;
+  }
+  .screen.active { display: flex; }
+
+  /* ===== STATUS BAR ===== */
+  .sbar {
+    height: 44px; padding: 12px 22px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .sbar-time { font-size: 13px; font-weight: 700; }
+  .sbar-icons { font-size: 13px; display: flex; gap: 4px; }
+
+  /* ===== SCROLLABLE CONTENT ===== */
+  .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .scroll::-webkit-scrollbar { display: none; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bnav {
+    height: 74px; background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .bnav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 3px; padding: 6px 0; cursor: pointer;
+  }
+  .bnav-icon { font-size: 20px; line-height: 1; }
+  .bnav-lbl { font-size: 9px; font-weight: 600; color: var(--text3); }
+  .bnav-item.on .bnav-lbl { color: var(--red); }
+  .bnav-fab {
+    width: 46px; height: 46px; background: var(--red);
+    border-radius: 14px; display: flex; align-items: center;
+    justify-content: center; font-size: 24px;
+    margin-top: -18px;
+    box-shadow: 0 4px 16px rgba(208,13,45,0.5);
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-p {
+    background: var(--red); color: #fff; border: none;
+    border-radius: 12px; padding: 14px; font-size: 15px;
+    font-weight: 700; width: 100%; cursor: pointer;
+    font-family: 'Montserrat', inherit; transition: background .15s;
+    letter-spacing: 0.3px;
+  }
+  .btn-p:hover { background: var(--red-lite); }
+  .btn-g {
+    background: var(--navy); color: #fff; border: none;
+    border-radius: 12px; padding: 14px; font-size: 15px;
+    font-weight: 700; width: 100%; cursor: pointer; font-family: 'Montserrat', inherit;
+  }
+  .btn-o {
+    background: transparent; color: var(--navy-lite);
+    border: 1.5px solid var(--navy-lite); border-radius: 12px;
+    padding: 13px; font-size: 14px; font-weight: 600;
+    width: 100%; cursor: pointer; font-family: inherit;
+  }
+  .btn-ghost {
+    background: transparent; border: none;
+    color: var(--text2); font-size: 14px;
+    cursor: pointer; padding: 8px; font-family: inherit;
+  }
+
+  /* ===== FORM INPUTS ===== */
+  .f-group { margin-bottom: 14px; }
+  .f-label { font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
+  .f-field {
+    width: 100%; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+  }
+  .f-field:focus { border-color: var(--navy-lite); }
+  .f-field::placeholder { color: var(--text3); }
+  textarea.f-field { resize: none; min-height: 84px; }
+
+  /* ===== CHIPS ===== */
+  .chip {
+    display: inline-flex; align-items: center;
+    padding: 5px 12px; border-radius: 20px; font-size: 12px;
+    font-weight: 600; border: 1.5px solid var(--border);
+    color: var(--text2); cursor: pointer; white-space: nowrap;
+  }
+  .chip.on { background: var(--navy-dim); border-color: var(--navy-lite); color: var(--navy-lite); }
+  .chip.gold-chip { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+  /* ===== AVATAR ===== */
+  .av {
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; flex-shrink: 0;
+  }
+
+  /* ================================================
+     SPLASH
+  ================================================ */
+  #splash {
+    background: radial-gradient(ellipse at 50% 30%, #001845 0%, var(--bg) 65%);
+    justify-content: center; align-items: center;
+  }
+  .sp-icon {
+    width: 84px; height: 84px; background: var(--navy);
+    border-radius: 26px; display: flex; align-items: center;
+    justify-content: center; font-size: 40px;
+    box-shadow: 0 0 50px rgba(0,46,109,.6), 0 0 20px rgba(208,13,45,.3);
+    margin-bottom: 20px;
+  }
+  .sp-title { font-size: 30px; font-weight: 900; font-family: 'Montserrat', sans-serif; letter-spacing: -0.5px; }
+  .sp-title span { color: var(--red); }
+  .sp-sub { font-size: 13px; color: var(--text2); text-align: center; line-height: 1.6; margin-top: 6px; }
+  .sp-bar { width: 50px; height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; margin-top: 48px; }
+  .sp-bar-fill { height: 100%; width: 55%; background: var(--red); border-radius: 2px; animation: slide 1.6s ease-in-out infinite; }
+  @keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(270%)} }
+  .sp-cta { position: absolute; bottom: 46px; left: 24px; right: 24px; }
+
+  /* ================================================
+     ONBOARDING
+  ================================================ */
+  .ob-wrap { flex: 1; display: flex; flex-direction: column; padding: 0 28px 24px; }
+  .ob-illu { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .ob-circle { width: 200px; height: 200px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 74px; }
+  .ob-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 28px; }
+  .ob-dot { width: 8px; height: 8px; border-radius: 4px; background: var(--border); transition: all .2s; }
+  .ob-dot.on { width: 24px; background: var(--red); }
+  .ob-h { font-size: 26px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; font-family: 'Montserrat', sans-serif; }
+  .ob-p { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 26px; }
+  .ob-row { display: flex; gap: 10px; align-items: center; }
+  .skip { background: none; border: none; color: var(--text3); font-size: 13px; cursor: pointer; padding: 0 12px; font-family: inherit; }
+
+  /* ================================================
+     AUTH
+  ================================================ */
+  .auth-body { flex: 1; padding: 16px 24px 28px; overflow-y: auto; scrollbar-width: none; }
+  .auth-body::-webkit-scrollbar { display: none; }
+  .auth-brand { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 32px; font-family: 'Montserrat', sans-serif; letter-spacing: -0.3px; }
+  .auth-h { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  .auth-sub { font-size: 13px; color: var(--text2); margin-bottom: 26px; }
+  .auth-switch { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text2); }
+  .auth-switch a { color: var(--red); font-weight: 600; cursor: pointer; }
+  .divider { display: flex; align-items: center; gap: 10px; margin: 18px 0; color: var(--text3); font-size: 12px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .forgot { font-size: 12px; color: var(--red); text-align: right; margin-bottom: 20px; cursor: pointer; display: block; }
+
+  /* ===== ROLE CARDS ===== */
+  .role-card {
+    background: var(--card); border: 2px solid var(--border);
+    border-radius: 14px; padding: 15px; display: flex;
+    align-items: center; gap: 13px; margin-bottom: 10px; cursor: pointer; transition: all .15s;
+  }
+  .role-card.sel { border-color: var(--navy-lite); background: var(--navy-dim); }
+  .role-ico { font-size: 26px; width: 46px; height: 46px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .role-info { flex: 1; }
+  .role-name { font-size: 15px; font-weight: 700; }
+  .role-desc { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .role-chk { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+  .role-card.sel .role-chk { background: var(--red); border-color: var(--red); color: #fff; }
+
+  /* ================================================
+     HOME FEED
+  ================================================ */
+  .home-hdr { padding: 6px 18px 10px; display: flex; align-items: center; justify-content: space-between; }
+  .home-greet { font-size: 13px; color: var(--text2); }
+  .home-name { font-size: 19px; font-weight: 800; }
+  .notif-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--card); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer; position: relative;
+  }
+  .notif-dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: var(--red); border-radius: 50%; }
+  .search-bar {
+    margin: 0 18px 12px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+    color: var(--text3); font-size: 13px;
+  }
+  .cat-row { display: flex; gap: 8px; padding: 0 18px 14px; overflow-x: auto; scrollbar-width: none; }
+  .cat-row::-webkit-scrollbar { display: none; }
+  .sect-lbl { padding: 0 18px; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--text2); }
+
+  /* featured carousel */
+  .feat-row { display: flex; gap: 12px; padding: 0 18px 14px; overflow-x: auto; scrollbar-width: none; }
+  .feat-row::-webkit-scrollbar { display: none; }
+  .feat-card { flex-shrink: 0; width: 258px; height: 138px; border-radius: 16px; position: relative; overflow: hidden; cursor: pointer; }
+  .feat-bg { position: absolute; inset: 0; }
+  .feat-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85) 40%, transparent); padding: 11px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .feat-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; width: fit-content; margin-bottom: 5px; }
+  .feat-title { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.3; }
+  .feat-date { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 3px; }
+
+  /* event card */
+  .ev-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin: 0 18px 12px; overflow: hidden; cursor: pointer; }
+  .ev-img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+  .ev-body { padding: 11px 13px; }
+  .ev-tags { display: flex; gap: 5px; margin-bottom: 6px; }
+  .ev-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+  .ev-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .ev-meta { display: flex; gap: 12px; }
+  .ev-mi { font-size: 11px; color: var(--text2); display: flex; align-items: center; gap: 3px; }
+  .ev-foot { padding: 9px 13px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .ev-avs { display: flex; }
+  .ev-av { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--card); margin-right: -6px; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .ev-cnt { font-size: 11px; color: var(--text2); margin-left: 12px; }
+  .rsvp-lbl { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px; background: var(--red-dim); color: var(--red-lite); border: 1px solid var(--red); cursor: pointer; }
+
+  /* ================================================
+     EVENT DETAIL
+  ================================================ */
+  .ed-hero { height: 215px; position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 68px; }
+  .ed-ov { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.78)); }
+  .ed-back { position: absolute; top: 52px; left: 14px; z-index: 5; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,.5); border: none; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; color: #fff; }
+  .ed-bkmk { position: absolute; top: 52px; right: 14px; z-index: 5; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,.5); border: none; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+  .ed-hero-tag { position: absolute; bottom: 13px; left: 15px; z-index: 5; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; }
+  .ed-body { padding: 16px 18px; }
+  .ed-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+  .ed-org-row { display: flex; align-items: center; gap: 8px; margin-bottom: 13px; }
+  .ed-meta-r { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  .ed-mi { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+  .ed-slbl { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .ed-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+  .cap-bg { background: var(--border); height: 6px; border-radius: 3px; margin-bottom: 5px; }
+  .cap-fill { height: 6px; border-radius: 3px; background: var(--red); }
+  .cap-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); }
+  .att-row { display: flex; align-items: center; gap: 0; margin-top: 12px; }
+  .att-av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid var(--bg); margin-right: -4px; }
+  .ed-foot { padding: 13px 18px; border-top: 1px solid var(--border); flex-shrink: 0; }
+
+  /* ================================================
+     RSVP MODAL
+  ================================================ */
+  #rsvp { background: rgba(0,0,0,.6); }
+  .modal-sheet { background: var(--surface); border-radius: 22px 22px 0 0; padding: 0 0 32px; }
+  .modal-handle { width: 38px; height: 4px; border-radius: 2px; background: var(--border); margin: 12px auto 16px; }
+  .modal-title { font-size: 16px; font-weight: 800; text-align: center; margin-bottom: 4px; }
+  .modal-body { padding: 0 20px 20px; }
+  .rsvp-ev { background: var(--card); border-radius: 12px; padding: 12px; display: flex; gap: 10px; align-items: center; margin: 14px 0; }
+  .rsvp-ev-ico { font-size: 30px; }
+  .rsvp-note { font-size: 12px; color: var(--text2); line-height: 1.6; padding: 10px 12px; background: var(--card); border-radius: 10px; margin-bottom: 16px; }
+
+  /* ================================================
+     CREATE POST
+  ================================================ */
+  .cp-hdr { padding: 6px 18px 10px; display: flex; align-items: center; gap: 10px; }
+  .cp-title { font-size: 18px; font-weight: 800; }
+  .img-drop { margin: 0 18px 14px; height: 96px; background: var(--card); border: 2px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; color: var(--text3); font-size: 12px; }
+  .pick-row { display: flex; gap: 8px; margin: 0 18px 14px; }
+  .pick-btn { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); cursor: pointer; }
+
+  /* ================================================
+     COMMUNITIES
+  ================================================ */
+  .comm-hdr { padding: 6px 18px 14px; }
+  .comm-hdr-title { font-size: 20px; font-weight: 800; }
+  .comm-slbl { font-size: 10px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; padding: 0 18px; margin-bottom: 8px; }
+  .comm-card { margin: 0 18px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 13px; display: flex; align-items: center; gap: 11px; cursor: pointer; }
+  .comm-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .comm-info { flex: 1; min-width: 0; }
+  .comm-name { font-size: 14px; font-weight: 700; }
+  .comm-last { font-size: 11px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .comm-rgt { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .comm-time { font-size: 10px; color: var(--text3); }
+  .comm-badge { min-width: 18px; height: 18px; border-radius: 9px; background: var(--navy); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+  /* ================================================
+     CHAT
+  ================================================ */
+  .chat-hdr { padding: 6px 14px 10px; display: flex; align-items: center; gap: 9px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .chat-ico { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .chat-name { font-size: 14px; font-weight: 700; }
+  .chat-mem { font-size: 11px; color: var(--text2); }
+  .msgs { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { display: flex; gap: 7px; align-items: flex-end; }
+  .msg.me { flex-direction: row-reverse; }
+  .msg-av { width: 26px; height: 26px; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bubble { max-width: 70%; padding: 8px 11px; border-radius: 14px; }
+  .msg:not(.me) .bubble { background: var(--card); border-radius: 4px 14px 14px 14px; }
+  .msg.me .bubble { background: var(--navy); border-radius: 14px 4px 14px 14px; }
+  .msg-who { font-size: 10px; font-weight: 700; color: var(--text2); margin-bottom: 3px; }
+  .msg-txt { font-size: 13px; line-height: 1.4; }
+  .msg.me .msg-txt { color: #fff; }
+  .msg-ts { font-size: 9px; color: var(--text3); margin-top: 3px; text-align: right; }
+  .msg.me .msg-ts { color: rgba(255,255,255,.55); }
+  .day-sep { text-align: center; font-size: 10px; color: var(--text3); padding: 4px 0; }
+  .chat-inp-bar { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  .chat-inp { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 9px 14px; font-size: 13px; color: var(--text); font-family: inherit; outline: none; }
+  .chat-send { width: 36px; height: 36px; border-radius: 50%; background: var(--red); border: none; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; }
+
+  /* ================================================
+     LAUNCHPAD
+  ================================================ */
+  .lp-hdr { padding: 6px 18px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .lp-super { font-size: 10px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+  .lp-title { font-size: 20px; font-weight: 800; }
+  .lp-new-btn { background: var(--gold); color: #000; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .idea-card { margin: 0 18px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; }
+  .ic-body { padding: 14px 14px 12px; }
+  .ic-domain { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; width: fit-content; margin-bottom: 8px; }
+  .ic-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .ic-prob { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+  .ic-skills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 0; }
+  .sk { font-size: 10px; padding: 3px 8px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--text2); }
+  .ic-foot { border-top: 1px solid var(--border); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .ic-by { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+  .ic-by-av { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; }
+  .back-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--gold); color: var(--gold); background: transparent; cursor: pointer; font-family: inherit; }
+  .back-btn.on { background: var(--gold-dim); }
+  .bk-cnt { font-size: 11px; color: var(--text2); display: flex; align-items: center; gap: 3px; }
+
+  /* ================================================
+     IDEA DETAIL
+  ================================================ */
+  .id-hdr { padding: 6px 18px 10px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .thresh-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+  .thresh-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .thresh-lbl { font-size: 13px; font-weight: 700; }
+  .thresh-num { font-size: 14px; font-weight: 800; color: var(--gold); }
+  .tbar-bg { background: var(--border); height: 6px; border-radius: 3px; margin-bottom: 4px; }
+  .tbar-fill { height: 6px; border-radius: 3px; background: var(--gold); }
+  .thresh-note { font-size: 11px; color: var(--text2); text-align: center; margin-bottom: 12px; }
+  .bk-row { display: flex; gap: 8px; align-items: center; }
+
+  /* ================================================
+     PROFILE
+  ================================================ */
+  .prf-hdr { padding: 6px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .prf-hero { padding: 12px 18px 16px; display: flex; align-items: flex-start; gap: 14px; }
+  .prf-av { width: 66px; height: 66px; border-radius: 50%; background: var(--navy-dim); border: 3px solid var(--navy-lite); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: var(--text); flex-shrink: 0; }
+  .prf-name { font-size: 18px; font-weight: 800; }
+  .role-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--red-dim); color: var(--red-lite); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 4px; }
+  .prf-bio { font-size: 12px; color: var(--text2); margin-top: 5px; line-height: 1.5; }
+  .stats { display: flex; margin: 0 18px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .stat { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 20px; font-weight: 800; }
+  .stat-l { font-size: 10px; color: var(--text2); margin-top: 2px; }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin: 0 18px 14px; }
+  .tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab.on { color: var(--red); border-bottom-color: var(--red); }
+  .prf-ev { margin: 0 18px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; gap: 10px; align-items: center; }
+  .prf-ev-ico { font-size: 26px; flex-shrink: 0; }
+  .prf-ev-title { font-size: 13px; font-weight: 700; }
+  .prf-ev-date { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .prf-ev-badge { margin-left: auto; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>ALU <span>Connect</span> — UI Mockups</h1>
+  <p>16 screens · Click a button to switch · All screens are interactive</p>
+</div>
+
+<!-- SCREEN NAV -->
+<div class="screen-nav">
+  <button class="nav-btn active" onclick="go('splash')">Splash</button>
+  <button class="nav-btn" onclick="go('ob1')">Onboard 1</button>
+  <button class="nav-btn" onclick="go('ob2')">Onboard 2</button>
+  <button class="nav-btn" onclick="go('login')">Login</button>
+  <button class="nav-btn" onclick="go('register')">Register</button>
+  <button class="nav-btn" onclick="go('role')">Role Select</button>
+  <button class="nav-btn" onclick="go('home')">Home Feed</button>
+  <button class="nav-btn" onclick="go('evdet')">Event Detail</button>
+  <button class="nav-btn" onclick="go('rsvp')">RSVP Modal</button>
+  <button class="nav-btn" onclick="go('create')">Create Post</button>
+  <button class="nav-btn" onclick="go('comms')">Communities</button>
+  <button class="nav-btn" onclick="go('chat')">Chat Room</button>
+  <button class="nav-btn" onclick="go('lpad')">Launchpad</button>
+  <button class="nav-btn" onclick="go('postidea')">Post Idea</button>
+  <button class="nav-btn" onclick="go('iddet')">Idea Detail</button>
+  <button class="nav-btn" onclick="go('profile')">Profile</button>
+</div>
+
+<!-- PHONE -->
+<div class="phone-wrap">
+  <div class="phone-frame"></div>
+  <div class="phone-notch"></div>
+  <div class="phone-screen">
+
+    <!-- ═══════════ SPLASH ═══════════ -->
+    <div class="screen active" id="splash">
+      <div class="sp-icon">🌍</div>
+      <div class="sp-title">ALU <span>Connect</span></div>
+      <div class="sp-sub">Where ALU students discover,<br>connect, and build together.</div>
+      <div class="sp-bar"><div class="sp-bar-fill"></div></div>
+      <div class="sp-cta">
+        <button class="btn-p" onclick="go('ob1')">Get Started →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ ONBOARD 1 ═══════════ -->
+    <div class="screen" id="ob1">
+      <div style="height:46px;flex-shrink:0;"></div>
+      <div class="ob-wrap">
+        <div class="ob-illu">
+          <div class="ob-circle" style="background:radial-gradient(circle,#0c2816,#040d07);">🗓️</div>
+        </div>
+        <div class="ob-dots">
+          <div class="ob-dot on"></div>
+          <div class="ob-dot"></div>
+        </div>
+        <div class="ob-h">Discover What's<br>Happening at ALU</div>
+        <div class="ob-p">From hackathons to leadership workshops, SRC announcements to startup pitches — everything curated for the ALU community in one place.</div>
+        <div class="ob-row">
+          <button class="skip" onclick="go('login')">Skip</button>
+          <button class="btn-p" style="flex:1;" onclick="go('ob2')">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ ONBOARD 2 ═══════════ -->
+    <div class="screen" id="ob2">
+      <div style="height:46px;flex-shrink:0;"></div>
+      <div class="ob-wrap">
+        <div class="ob-illu">
+          <div class="ob-circle" style="background:radial-gradient(circle,#3d2900,#100c00);">🚀</div>
+        </div>
+        <div class="ob-dots">
+          <div class="ob-dot"></div>
+          <div class="ob-dot on"></div>
+        </div>
+        <div class="ob-h">Launch Ideas,<br>Find Your Team</div>
+        <div class="ob-p">Got a startup idea? Post it on the Launchpad, gather backers, and when 3 people believe in your vision, a private team chat opens automatically.</div>
+        <div class="ob-row">
+          <button class="skip" onclick="go('ob1')">Back</button>
+          <button class="btn-g" style="flex:1;" onclick="go('login')">Let's Go →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ LOGIN ═══════════ -->
+    <div class="screen" id="login">
+      <div style="height:44px;flex-shrink:0;"></div>
+      <div class="auth-body">
+        <div class="auth-brand">ALU Connect</div>
+        <div class="auth-h">Welcome back 👋</div>
+        <div class="auth-sub">Sign in to your ALU Connect account</div>
+        <div class="f-group">
+          <div class="f-label">Email address</div>
+          <input class="f-field" type="email" placeholder="you@alueducation.com">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Password</div>
+          <input class="f-field" type="password" placeholder="••••••••">
+        </div>
+        <span class="forgot">Forgot password?</span>
+        <button class="btn-p" onclick="go('home')">Sign In</button>
+        <div class="divider">or</div>
+        <button class="btn-o" onclick="go('register')">Create Account</button>
+        <div class="auth-switch">New to ALU Connect? <a onclick="go('register')">Register here</a></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ REGISTER ═══════════ -->
+    <div class="screen" id="register">
+      <div style="height:44px;flex-shrink:0;"></div>
+      <div class="auth-body">
+        <div class="auth-brand">ALU Connect</div>
+        <div class="auth-h">Create Account</div>
+        <div class="auth-sub">Join the ALU student community</div>
+        <div class="f-group">
+          <div class="f-label">Full name</div>
+          <input class="f-field" placeholder="Amara Diallo">
+        </div>
+        <div class="f-group">
+          <div class="f-label">ALU Email</div>
+          <input class="f-field" type="email" placeholder="a.diallo@alueducation.com">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Password</div>
+          <input class="f-field" type="password" placeholder="Min. 8 characters">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Cohort Year</div>
+          <input class="f-field" placeholder="e.g. 2024">
+        </div>
+        <button class="btn-p" style="margin-top:6px;" onclick="go('role')">Continue →</button>
+        <div class="auth-switch">Already have an account? <a onclick="go('login')">Sign in</a></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ ROLE SELECT ═══════════ -->
+    <div class="screen" id="role">
+      <div style="height:44px;flex-shrink:0;"></div>
+      <div class="auth-body">
+        <div class="auth-brand">ALU Connect</div>
+        <div class="auth-h">Who are you<br>at ALU? 🎓</div>
+        <div class="auth-sub">Your role determines what you can post on the platform</div>
+        <div class="role-card sel" onclick="pickRole(this)">
+          <div class="role-ico">🎓</div>
+          <div class="role-info"><div class="role-name">Student</div><div class="role-desc">Discover events, RSVP, join chats, back Launchpad ideas</div></div>
+          <div class="role-chk">✓</div>
+        </div>
+        <div class="role-card" onclick="pickRole(this)">
+          <div class="role-ico">🏛️</div>
+          <div class="role-info"><div class="role-name">Club Leader</div><div class="role-desc">Post club events and manage member communities</div></div>
+          <div class="role-chk"></div>
+        </div>
+        <div class="role-card" onclick="pickRole(this)">
+          <div class="role-ico">📋</div>
+          <div class="role-info"><div class="role-name">Event Organizer</div><div class="role-desc">Post and manage official campus opportunities</div></div>
+          <div class="role-chk"></div>
+        </div>
+        <button class="btn-p" style="margin-top:16px;" onclick="go('home')">Start Exploring →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ HOME FEED ═══════════ -->
+    <div class="screen" id="home">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="home-hdr">
+        <div>
+          <div class="home-greet">Good morning,</div>
+          <div class="home-name">Amara 👋</div>
+        </div>
+        <button class="notif-btn" onclick="go('comms')">🔔<div class="notif-dot"></div></button>
+      </div>
+      <div class="search-bar"><span>🔍</span><span>Search events, clubs, opportunities...</span></div>
+      <div class="scroll">
+        <div class="sect-lbl">✨ Featured</div>
+        <div class="feat-row">
+          <div class="feat-card" onclick="go('evdet')">
+            <div class="feat-bg" style="background:linear-gradient(135deg,#0c2816,#1a8c42);"></div>
+            <div class="feat-ov">
+              <div class="feat-tag" style="background:rgba(0,46,109,.9);color:#fff;">Hackathon</div>
+              <div class="feat-title">ALU Tech For Good Hackathon 2026</div>
+              <div class="feat-date">📅 Jun 20–22 · Kigali Campus</div>
+            </div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-bg" style="background:linear-gradient(135deg,#3d2900,#7a5200);"></div>
+            <div class="feat-ov">
+              <div class="feat-tag" style="background:rgba(208,13,45,.9);color:#fff;">🌱 Venture Support</div>
+              <div class="feat-title">ALU Spark Fund — $5K Seed Grants Open</div>
+              <div class="feat-date">📅 Apply by Jul 15 · AEI Office</div>
+            </div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-bg" style="background:linear-gradient(135deg,#001A42,#1A4FA0);"></div>
+            <div class="feat-ov">
+              <div class="feat-tag" style="background:rgba(0,46,109,.9);color:#90AACC;">💼 Internship</div>
+              <div class="feat-title">Andela Product Design Intern — Deadline Jul 1</div>
+              <div class="feat-date">📍 Kigali / Remote · Paid</div>
+            </div>
+          </div>
+        </div>
+        <div class="cat-row">
+          <span class="chip on">All</span>
+          <span class="chip">Events</span>
+          <span class="chip">Jobs &amp; Internships</span>
+          <span class="chip">Networking</span>
+          <span class="chip">Hackathons</span>
+          <span class="chip">Workshops</span>
+          <span class="chip">Entertainment</span>
+          <span class="chip">Venture</span>
+          <span class="chip">SRC</span>
+        </div>
+
+        <!-- ── JOBS & INTERNSHIPS ── -->
+        <div class="sect-lbl">💼 Jobs &amp; Internships</div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#001A42,#002E6D);font-size:28px;">🏢</div>
+          <div class="ev-body">
+            <div class="ev-tags">
+              <span class="ev-tag" style="background:#002E6D;color:#90AACC;">Internship</span>
+              <span class="ev-tag" style="background:#6B0616;color:#E8304A;">Deadline: Jul 1</span>
+            </div>
+            <div class="ev-title">Product Design Intern — Andela Rwanda</div>
+            <div class="ev-meta"><div class="ev-mi">🕐 3 months · Paid</div><div class="ev-mi">📍 Kigali / Remote</div></div>
+          </div>
+          <div class="ev-foot">
+            <span style="font-size:11px;color:var(--text2);">Posted by Career Office</span>
+            <span class="rsvp-lbl" style="background:var(--red-dim);color:var(--red-lite);border-color:var(--red);">Apply</span>
+          </div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#0e1a2a,#1A4FA0);font-size:28px;">💻</div>
+          <div class="ev-body">
+            <div class="ev-tags">
+              <span class="ev-tag" style="background:#1A3A6B;color:#90AACC;">Full-time</span>
+              <span class="ev-tag" style="background:#001A42;color:#90AACC;">Alumni Referral</span>
+            </div>
+            <div class="ev-title">Junior Data Analyst — MTN Rwanda</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Open until Jun 30</div><div class="ev-mi">📍 Kigali</div></div>
+          </div>
+          <div class="ev-foot">
+            <span style="font-size:11px;color:var(--text2);">Shared via Network</span>
+            <span class="rsvp-lbl" style="background:var(--red-dim);color:var(--red-lite);border-color:var(--red);">Apply</span>
+          </div>
+        </div>
+
+        <!-- ── NETWORKING ── -->
+        <div class="sect-lbl">🤝 Networking Opportunities</div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#002E6D,#1A4FA0);font-size:28px;">🌐</div>
+          <div class="ev-body">
+            <div class="ev-tags">
+              <span class="ev-tag" style="background:#002E6D;color:#90AACC;">Networking</span>
+              <span class="ev-tag" style="background:#1A3A6B;color:#90AACC;">Alumni-led</span>
+            </div>
+            <div class="ev-title">ALU Alumni Mixer — Tech &amp; Entrepreneurship</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 22 · 5pm</div><div class="ev-mi">📍 Innovation Village</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#1A4FA0;color:#fff;">A</div><div class="ev-av" style="background:#D00D2D;color:#fff;">J</div><div class="ev-av" style="background:#0E9E8A;color:#fff;">R</div></div>
+              <span class="ev-cnt">+24 attending</span>
+            </div>
+            <span class="rsvp-lbl">RSVP</span>
+          </div>
+        </div>
+
+        <!-- ── VENTURE SUPPORT ── -->
+        <div class="sect-lbl">🌱 Venture Support</div>
+        <div class="ev-card" style="border-left:3px solid var(--gold);">
+          <div class="ev-img" style="background:linear-gradient(135deg,#3d2900,#7a5200);font-size:28px;">🏆</div>
+          <div class="ev-body">
+            <div class="ev-tags">
+              <span class="ev-tag" style="background:var(--gold-dim);color:var(--gold);">Grant</span>
+              <span class="ev-tag" style="background:var(--gold-dim);color:var(--gold);">ALU AEI</span>
+            </div>
+            <div class="ev-title">ALU Spark Fund — Seed Grants up to $5,000</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Apply by Jul 15</div><div class="ev-mi">💰 $5K seed funding</div></div>
+          </div>
+          <div class="ev-foot">
+            <span style="font-size:11px;color:var(--text2);">Posted by AEI Office</span>
+            <span class="rsvp-lbl" style="background:var(--gold-dim);color:var(--gold);border-color:var(--gold);">Apply Now</span>
+          </div>
+        </div>
+        <div class="ev-card" style="border-left:3px solid var(--gold);">
+          <div class="ev-img" style="background:linear-gradient(135deg,#1a0035,#4a0080);font-size:28px;">🎤</div>
+          <div class="ev-body">
+            <div class="ev-tags">
+              <span class="ev-tag" style="background:#2d0060;color:#c084fc;">Pitch Event</span>
+              <span class="ev-tag" style="background:#2d0060;color:#c084fc;">Prize Pool</span>
+            </div>
+            <div class="ev-title">ALU Demo Day — Pitch to Investors</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 28 · 3pm</div><div class="ev-mi">💰 $10K prize pool</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#c084fc;color:#000;">E</div><div class="ev-av" style="background:#f0a500;color:#000;">S</div></div>
+              <span class="ev-cnt">8 teams pitching</span>
+            </div>
+            <span class="rsvp-lbl" style="background:var(--gold-dim);color:var(--gold);border-color:var(--gold);">Register Team</span>
+          </div>
+        </div>
+
+        <!-- ── SCHOOL EVENTS ── -->
+        <div class="sect-lbl">🔥 School Events</div>
+        <div class="ev-card" onclick="go('evdet')">
+          <div class="ev-img" style="background:linear-gradient(135deg,#0c2816,#0a2410);">🖥️</div>
+          <div class="ev-body">
+            <div class="ev-tags"><span class="ev-tag" style="background:#001A42;color:#90AACC;">Hackathon</span><span class="ev-tag" style="background:#1A3A6B;color:#90AACC;">48 hrs</span></div>
+            <div class="ev-title">ALU Tech For Good Hackathon 2026</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 20–22</div><div class="ev-mi">📍 Kigali Campus</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#1A4FA0;color:#fff;">A</div><div class="ev-av" style="background:#3498db;color:#fff;">K</div><div class="ev-av" style="background:#9b59b6;color:#fff;">O</div></div>
+              <span class="ev-cnt">+38 attending</span>
+            </div>
+            <span class="rsvp-lbl" onclick="go('evdet')">RSVP</span>
+          </div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#1a0a00,#3d2900);">💡</div>
+          <div class="ev-body">
+            <div class="ev-tags"><span class="ev-tag" style="background:#3d2900;color:#f0a500;">Workshop</span></div>
+            <div class="ev-title">Design Thinking for Social Impact</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 15 · 2pm</div><div class="ev-mi">📍 Room B204</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#f0a500;color:#000;">M</div><div class="ev-av" style="background:#e74c3c;color:#fff;">Z</div></div>
+              <span class="ev-cnt">+12 attending</span>
+            </div>
+            <span class="rsvp-lbl">RSVP</span>
+          </div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#1a001a,#4a0050);font-size:28px;">🎵</div>
+          <div class="ev-body">
+            <div class="ev-tags"><span class="ev-tag" style="background:#3d0050;color:#e040fb;">Entertainment</span><span class="ev-tag" style="background:#1A3A6B;color:#90AACC;">Free Entry</span></div>
+            <div class="ev-title">ALU Cultural Night 2026</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 25 · 7pm</div><div class="ev-mi">📍 Main Courtyard</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#e040fb;color:#000;">T</div><div class="ev-av" style="background:#D00D2D;color:#fff;">A</div><div class="ev-av" style="background:#0E9E8A;color:#fff;">B</div></div>
+              <span class="ev-cnt">+95 attending</span>
+            </div>
+            <span class="rsvp-lbl">RSVP</span>
+          </div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-img" style="background:linear-gradient(135deg,#0e1a2a,#1a3a5c);">🏆</div>
+          <div class="ev-body">
+            <div class="ev-tags"><span class="ev-tag" style="background:#1a3a5c;color:#58a6ff;">Leadership</span></div>
+            <div class="ev-title">SRC Presidential Debate Night</div>
+            <div class="ev-meta"><div class="ev-mi">📅 Jun 18 · 6pm</div><div class="ev-mi">📍 AH Auditorium</div></div>
+          </div>
+          <div class="ev-foot">
+            <div style="display:flex;align-items:center;">
+              <div class="ev-avs"><div class="ev-av" style="background:#58a6ff;color:#000;">I</div><div class="ev-av" style="background:#1A4FA0;color:#fff;">N</div><div class="ev-av" style="background:#D00D2D;color:#fff;">R</div></div>
+              <span class="ev-cnt">+61 attending</span>
+            </div>
+            <span class="rsvp-lbl">RSVP</span>
+          </div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item on" onclick="go('home')"><div class="bnav-icon">🏠</div><div class="bnav-lbl">Home</div></div>
+        <div class="bnav-item" onclick="go('lpad')"><div class="bnav-icon">🚀</div><div class="bnav-lbl">Launchpad</div></div>
+        <div class="bnav-item" onclick="go('create')"><div class="bnav-fab">➕</div><div class="bnav-lbl" style="margin-top:4px;">Post</div></div>
+        <div class="bnav-item" onclick="go('comms')"><div class="bnav-icon">💬</div><div class="bnav-lbl">Chats</div></div>
+        <div class="bnav-item" onclick="go('profile')"><div class="bnav-icon">👤</div><div class="bnav-lbl">Profile</div></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ EVENT DETAIL ═══════════ -->
+    <div class="screen" id="evdet">
+      <div class="ed-hero" style="background:linear-gradient(135deg,#0c2816,#1a8c42);">
+        <div class="ed-ov"></div>
+        <span style="position:relative;z-index:2;">🖥️</span>
+        <button class="ed-back" onclick="go('home')">←</button>
+        <button class="ed-bkmk">🔖</button>
+        <span class="ed-hero-tag" style="background:rgba(0,46,109,.9);color:#fff;">Hackathon</span>
+      </div>
+      <div class="scroll">
+        <div class="ed-body">
+          <div class="ed-title">ALU Tech For Good Hackathon 2026</div>
+          <div class="ed-org-row">
+            <div class="av" style="width:26px;height:26px;background:var(--navy-dim);color:var(--navy-lite);font-size:12px;">T</div>
+            <span style="font-size:12px;color:var(--text2);">Organised by <strong style="color:var(--text);">ALU Tech Club</strong></span>
+          </div>
+          <div class="ed-meta-r">
+            <div class="ed-mi">📅 <span>Jun 20–22, 2026</span></div>
+            <div class="ed-mi">⏰ <span>9:00 AM</span></div>
+          </div>
+          <div class="ed-meta-r">
+            <div class="ed-mi">📍 <span>Kigali Campus, Innovation Lab</span></div>
+          </div>
+          <div class="ed-slbl">About</div>
+          <div class="ed-desc">Build solutions for real African challenges in 48 hours. Open to all ALU students. Teams of 2–4. Prizes across Health, Agri, and EdTech tracks. Mentors from local startups on-site throughout.</div>
+          <div class="ed-slbl">Capacity</div>
+          <div class="cap-bg"><div class="cap-fill" style="width:78%;"></div></div>
+          <div class="cap-lbl"><span>39 / 50 attending</span><span style="color:var(--teal);font-weight:700;">11 spots left</span></div>
+          <div class="ed-slbl" style="margin-top:14px;">Attending</div>
+          <div class="att-row">
+            <div class="att-av" style="background:#1a8c42;color:#fff;">A</div>
+            <div class="att-av" style="background:#3498db;color:#fff;">K</div>
+            <div class="att-av" style="background:#9b59b6;color:#fff;">O</div>
+            <div class="att-av" style="background:#f0a500;color:#000;">M</div>
+            <div class="att-av" style="background:#e74c3c;color:#fff;">Z</div>
+            <div class="att-av" style="background:var(--card);color:var(--text2);font-size:10px;">+34</div>
+          </div>
+        </div>
+        <div style="height:80px;"></div>
+      </div>
+      <div class="ed-foot">
+        <button class="btn-p" onclick="go('rsvp')">🎟️ RSVP — Secure My Spot</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ RSVP MODAL ═══════════ -->
+    <div class="screen" id="rsvp" style="justify-content:flex-end;">
+      <div style="flex:1;background:rgba(0,0,0,.55);" onclick="go('evdet')"></div>
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-title">Confirm your RSVP ✅</div>
+        <div class="modal-body">
+          <div class="rsvp-ev">
+            <div class="rsvp-ev-ico">🖥️</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;">ALU Tech For Good Hackathon 2026</div>
+              <div style="font-size:11px;color:var(--text2);">📅 Jun 20–22 · Kigali Campus</div>
+            </div>
+          </div>
+          <div class="rsvp-note">By confirming, you commit to attending. Cancellations must be made 24 hrs in advance so your spot can go to someone on the waitlist.</div>
+          <button class="btn-p" style="margin-bottom:10px;" onclick="go('home')">✅ Confirm RSVP</button>
+          <button class="btn-ghost" style="width:100%;text-align:center;" onclick="go('evdet')">Not right now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CREATE POST ═══════════ -->
+    <div class="screen" id="create">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="cp-hdr">
+        <button class="btn-ghost" style="font-size:20px;padding:0;" onclick="go('home')">←</button>
+        <div class="cp-title">Create Opportunity</div>
+      </div>
+      <div class="scroll">
+        <div style="padding:0 18px;">
+          <div class="img-drop"><span style="font-size:26px;">🖼️</span><span>Tap to upload cover image</span></div>
+          <div class="f-group"><div class="f-label">Title</div><input class="f-field" placeholder="e.g. Python for Data Science Workshop"></div>
+          <div class="f-group">
+            <div class="f-label">Post Type</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="chip on">📅 School Event</span>
+              <span class="chip">💼 Job / Internship</span>
+              <span class="chip">🤝 Networking</span>
+              <span class="chip">🌱 Venture Support</span>
+              <span class="chip">🎵 Entertainment</span>
+              <span class="chip">🏆 SRC</span>
+            </div>
+          </div>
+          <div class="f-group">
+            <div class="f-label">Sub-category</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="chip on">Hackathon</span>
+              <span class="chip">Workshop</span>
+              <span class="chip">Grant</span>
+              <span class="chip">Pitch Event</span>
+              <span class="chip">Full-time</span>
+              <span class="chip">Internship</span>
+            </div>
+          </div>
+          <div class="pick-row">
+            <div class="pick-btn">📅 <span>Select Date</span></div>
+            <div class="pick-btn">⏰ <span>Select Time</span></div>
+          </div>
+          <div class="f-group"><div class="f-label">Location</div><input class="f-field" placeholder="e.g. Room B204 / Online"></div>
+          <div class="f-group"><div class="f-label">Capacity (max attendees)</div><input class="f-field" type="number" placeholder="e.g. 50"></div>
+          <div class="f-group"><div class="f-label">Description</div><textarea class="f-field" placeholder="Tell students what this is about, what they'll learn, and what to bring..."></textarea></div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:var(--text2);border-left:3px solid var(--red);">
+            ⚠️ Only Club Leaders and Event Organizers can publish. Students see a read-only preview.
+          </div>
+          <button class="btn-p" style="margin-bottom:28px;" onclick="go('home')">🚀 Publish Opportunity</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ COMMUNITIES ═══════════ -->
+    <div class="screen" id="comms">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="comm-hdr"><div class="comm-hdr-title">Communities</div></div>
+      <div class="search-bar" style="margin:0 18px 12px;"><span>🔍</span><span>Search communities...</span></div>
+      <div class="scroll">
+        <div class="comm-slbl">Your Spaces</div>
+        <div class="comm-card" onclick="go('chat')">
+          <div class="comm-ico" style="background:#0c2816;">💻</div>
+          <div class="comm-info"><div class="comm-name">Tech &amp; Coding</div><div class="comm-last">Kwame: "Anyone using Supabase for the project?"</div></div>
+          <div class="comm-rgt"><div class="comm-time">2m ago</div><div class="comm-badge">3</div></div>
+        </div>
+        <div class="comm-card" onclick="go('chat')">
+          <div class="comm-ico" style="background:#3d2900;">💡</div>
+          <div class="comm-info"><div class="comm-name">FounderSpace</div><div class="comm-last">New idea posted: "AgriTech Marketplace"</div></div>
+          <div class="comm-rgt"><div class="comm-time">14m ago</div><div class="comm-badge">7</div></div>
+        </div>
+        <div class="comm-card" onclick="go('chat')">
+          <div class="comm-ico" style="background:#0e1a2a;">🏆</div>
+          <div class="comm-info"><div class="comm-name">Hackathon 2026 Team</div><div class="comm-last">You: "Meeting at 4pm in the Innovation Lab"</div></div>
+          <div class="comm-rgt"><div class="comm-time">1h ago</div></div>
+        </div>
+        <div class="comm-slbl" style="margin-top:8px;">Explore More</div>
+        <div class="comm-card">
+          <div class="comm-ico" style="background:#1a0a2a;">🎨</div>
+          <div class="comm-info"><div class="comm-name">Arts &amp; Culture Club</div><div class="comm-last">142 members</div></div>
+          <div class="comm-rgt"><div style="font-size:11px;color:var(--red);font-weight:700;cursor:pointer;">Join</div></div>
+        </div>
+        <div class="comm-card">
+          <div class="comm-ico" style="background:#001a1a;">🌱</div>
+          <div class="comm-info"><div class="comm-name">Sustainability &amp; Climate</div><div class="comm-last">98 members</div></div>
+          <div class="comm-rgt"><div style="font-size:11px;color:var(--red);font-weight:700;cursor:pointer;">Join</div></div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item" onclick="go('home')"><div class="bnav-icon">🏠</div><div class="bnav-lbl">Home</div></div>
+        <div class="bnav-item" onclick="go('lpad')"><div class="bnav-icon">🚀</div><div class="bnav-lbl">Launchpad</div></div>
+        <div class="bnav-item" onclick="go('create')"><div class="bnav-fab">➕</div><div class="bnav-lbl" style="margin-top:4px;">Post</div></div>
+        <div class="bnav-item on" onclick="go('comms')"><div class="bnav-icon">💬</div><div class="bnav-lbl">Chats</div></div>
+        <div class="bnav-item" onclick="go('profile')"><div class="bnav-icon">👤</div><div class="bnav-lbl">Profile</div></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CHAT ROOM ═══════════ -->
+    <div class="screen" id="chat">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="chat-hdr">
+        <button class="btn-ghost" style="font-size:20px;padding:0;" onclick="go('comms')">←</button>
+        <div class="chat-ico" style="background:#0c2816;">💻</div>
+        <div style="flex:1;"><div class="chat-name">Tech &amp; Coding</div><div class="chat-mem">247 members · 12 online</div></div>
+        <div style="font-size:18px;cursor:pointer;">⚙️</div>
+      </div>
+      <div class="scroll">
+        <div class="msgs">
+          <div class="day-sep">Today, June 9</div>
+          <div class="msg">
+            <div class="msg-av" style="background:#1a8c42;color:#fff;">K</div>
+            <div class="bubble"><div class="msg-who">Kwame Asante</div><div class="msg-txt">Hey everyone! Anyone using Supabase for the hackathon project?</div><div class="msg-ts">9:14 AM</div></div>
+          </div>
+          <div class="msg">
+            <div class="msg-av" style="background:#3498db;color:#fff;">O</div>
+            <div class="bubble"><div class="msg-who">Ola Fashola</div><div class="msg-txt">Yes! Using it for auth and realtime. It's honestly 🔥</div><div class="msg-ts">9:16 AM</div></div>
+          </div>
+          <div class="msg me">
+            <div class="msg-av" style="background:#9b59b6;color:#fff;">A</div>
+            <div class="bubble"><div class="msg-txt">Same here! Realtime subscriptions make the feed way smoother</div><div class="msg-ts">9:18 AM ✓✓</div></div>
+          </div>
+          <div class="msg">
+            <div class="msg-av" style="background:#f0a500;color:#000;">M</div>
+            <div class="bubble"><div class="msg-who">Miriam Nkosi</div><div class="msg-txt">Can someone share the repo link? I want to check the folder structure before tonight's session</div><div class="msg-ts">9:21 AM</div></div>
+          </div>
+          <div class="msg me">
+            <div class="msg-av" style="background:#9b59b6;color:#fff;">A</div>
+            <div class="bubble"><div class="msg-txt">Just added you @Miriam — check your email 👍</div><div class="msg-ts">9:22 AM ✓✓</div></div>
+          </div>
+          <div class="msg">
+            <div class="msg-av" style="background:#e74c3c;color:#fff;">Z</div>
+            <div class="bubble"><div class="msg-who">Zara Ahmed</div><div class="msg-txt">Reminder: team standup at 4pm in the Innovation Lab 📍</div><div class="msg-ts">9:30 AM</div></div>
+          </div>
+        </div>
+        <div style="height:8px;"></div>
+      </div>
+      <div class="chat-inp-bar">
+        <input class="chat-inp" placeholder="Message Tech &amp; Coding...">
+        <button class="chat-send">→</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ LAUNCHPAD ═══════════ -->
+    <div class="screen" id="lpad">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="lp-hdr">
+        <div><div class="lp-super">✦ The Launchpad</div><div class="lp-title">Co-founder Match</div></div>
+        <button class="lp-new-btn" onclick="go('postidea')">+ Post Idea</button>
+      </div>
+      <div class="cat-row" style="padding:0 18px 12px;">
+        <span class="chip on">All Ideas</span>
+        <span class="chip">My Ideas</span>
+        <span class="chip">Backed</span>
+        <span class="chip gold-chip">🔥 Trending</span>
+      </div>
+      <div class="scroll">
+        <!-- Idea 1 -->
+        <div class="idea-card" onclick="go('iddet')">
+          <div class="ic-body">
+            <div class="ic-domain" style="background:#001a0a;color:#22a855;border:1px solid #1a8c42;">🌱 AgriTech</div>
+            <div class="ic-title">Farm-to-Market Micro Platform</div>
+            <div class="ic-prob">Small-scale farmers in Rwanda have no easy way to sell directly to urban consumers. A WhatsApp-native marketplace that removes the middleman.</div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:6px;font-weight:600;">Skills needed:</div>
+            <div class="ic-skills"><span class="sk">Flutter Dev</span><span class="sk">Backend (Node)</span><span class="sk">Business Dev</span></div>
+          </div>
+          <div class="ic-foot">
+            <div class="ic-by"><div class="ic-by-av" style="background:#0c2816;color:#22a855;">K</div>Kwame Asante</div>
+            <div style="display:flex;align-items:center;gap:9px;">
+              <div class="bk-cnt">🔥 2 / 3 backers</div>
+              <button class="back-btn on">★ Backed</button>
+            </div>
+          </div>
+        </div>
+        <!-- Idea 2 -->
+        <div class="idea-card">
+          <div class="ic-body">
+            <div class="ic-domain" style="background:#001a1a;color:#1abc9c;border:1px solid #1abc9c;">🏥 HealthTech</div>
+            <div class="ic-title">MamaCheck — Prenatal Monitoring App</div>
+            <div class="ic-prob">Rural mothers miss critical prenatal checkups due to distance and cost. Low-data app with offline symptom tracking and SMS alerts to doctors.</div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:6px;font-weight:600;">Skills needed:</div>
+            <div class="ic-skills"><span class="sk">Mobile Dev</span><span class="sk">UX Design</span><span class="sk">Healthcare</span><span class="sk">Data Science</span></div>
+          </div>
+          <div class="ic-foot">
+            <div class="ic-by"><div class="ic-by-av" style="background:#001a1a;color:#1abc9c;">O</div>Ola Fashola</div>
+            <div style="display:flex;align-items:center;gap:9px;">
+              <div class="bk-cnt">1 / 3 backers</div>
+              <button class="back-btn">☆ Back</button>
+            </div>
+          </div>
+        </div>
+        <!-- Idea 3 -->
+        <div class="idea-card">
+          <div class="ic-body">
+            <div class="ic-domain" style="background:#1a0e00;color:#f0a500;border:1px solid #f0a500;">🎓 EdTech</div>
+            <div class="ic-title">PeerLearn — ALU Skill Exchange</div>
+            <div class="ic-prob">ALU students have skills others need. A platform to offer tutoring in exchange for credit or skills — reducing learning gaps at zero cost.</div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:6px;font-weight:600;">Skills needed:</div>
+            <div class="ic-skills"><span class="sk">Product Design</span><span class="sk">Full Stack Dev</span></div>
+          </div>
+          <div class="ic-foot">
+            <div class="ic-by"><div class="ic-by-av" style="background:#1a0e00;color:#f0a500;">M</div>Miriam Nkosi</div>
+            <div style="display:flex;align-items:center;gap:9px;">
+              <div class="bk-cnt">0 / 3 backers</div>
+              <button class="back-btn">☆ Back</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item" onclick="go('home')"><div class="bnav-icon">🏠</div><div class="bnav-lbl">Home</div></div>
+        <div class="bnav-item on" onclick="go('lpad')"><div class="bnav-icon">🚀</div><div class="bnav-lbl">Launchpad</div></div>
+        <div class="bnav-item" onclick="go('create')"><div class="bnav-fab">➕</div><div class="bnav-lbl" style="margin-top:4px;">Post</div></div>
+        <div class="bnav-item" onclick="go('comms')"><div class="bnav-icon">💬</div><div class="bnav-lbl">Chats</div></div>
+        <div class="bnav-item" onclick="go('profile')"><div class="bnav-icon">👤</div><div class="bnav-lbl">Profile</div></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ POST IDEA ═══════════ -->
+    <div class="screen" id="postidea">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="cp-hdr">
+        <button class="btn-ghost" style="font-size:20px;padding:0;" onclick="go('lpad')">←</button>
+        <div class="cp-title">Share Your Idea ✦</div>
+      </div>
+      <div class="scroll">
+        <div style="padding:0 18px;">
+          <div style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6;padding:10px 12px;background:var(--card);border-radius:10px;border-left:3px solid var(--gold);">
+            ✦ Get 3 backers and a private team chat opens automatically. Be specific about the problem and what skills you need.
+          </div>
+          <div class="f-group"><div class="f-label">Idea Title</div><input class="f-field" placeholder="e.g. Farm-to-Market Micro Platform"></div>
+          <div class="f-group"><div class="f-label">Problem Statement</div><textarea class="f-field" style="min-height:96px;" placeholder="What problem are you solving? Who does it affect? Why does it matter in Africa?"></textarea></div>
+          <div class="f-group">
+            <div class="f-label">Domain</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="chip">AgriTech</span><span class="chip on">HealthTech</span><span class="chip">EdTech</span><span class="chip">FinTech</span><span class="chip">CleanTech</span><span class="chip">Other</span>
+            </div>
+          </div>
+          <div class="f-group">
+            <div class="f-label">Skills You Need (select all that apply)</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="chip on">Flutter Dev</span><span class="chip on">UX Design</span><span class="chip">Backend</span><span class="chip">Data Science</span><span class="chip">Biz Dev</span><span class="chip">Marketing</span>
+            </div>
+          </div>
+          <button class="btn-g" style="margin-bottom:28px;" onclick="go('lpad')">🚀 Post to Launchpad</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ IDEA DETAIL ═══════════ -->
+    <div class="screen" id="iddet">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="id-hdr">
+        <button class="btn-ghost" style="font-size:20px;padding:0;" onclick="go('lpad')">←</button>
+        <div style="font-size:16px;font-weight:800;">Idea Detail</div>
+      </div>
+      <div class="scroll">
+        <div style="padding:0 18px;">
+          <div style="margin-bottom:10px;"><div class="ic-domain" style="background:#001a0a;color:#22a855;border:1px solid #1a8c42;">🌱 AgriTech</div></div>
+          <div style="font-size:20px;font-weight:800;margin-bottom:6px;line-height:1.3;">Farm-to-Market Micro Platform</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+            <div class="av" style="width:26px;height:26px;background:#0c2816;color:#22a855;font-size:11px;">K</div>
+            <span style="font-size:12px;color:var(--text2);">by <strong style="color:var(--text);">Kwame Asante</strong></span>
+            <span style="font-size:10px;color:var(--text3);">· Jun 8</span>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Problem</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;">Small-scale farmers in Rwanda have no easy way to sell directly to urban consumers. A WhatsApp-native marketplace that removes the middleman and increases farmer income by 30–40%.</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Skills Needed</div>
+          <div class="ic-skills" style="margin-bottom:16px;"><span class="sk">Flutter Dev</span><span class="sk">Backend (Node)</span><span class="sk">Business Dev</span></div>
+          <!-- THRESHOLD -->
+          <div class="thresh-box">
+            <div class="thresh-top">
+              <div class="thresh-lbl">Team Formation Progress</div>
+              <div class="thresh-num">2 / 3</div>
+            </div>
+            <div class="tbar-bg"><div class="tbar-fill" style="width:67%;"></div></div>
+            <div class="thresh-note">1 more backer needed → team chat unlocks 🚀</div>
+            <div class="bk-row">
+              <div class="av" style="width:30px;height:30px;background:#1a8c42;color:#fff;font-size:13px;">K</div>
+              <div class="av" style="width:30px;height:30px;background:#9b59b6;color:#fff;font-size:13px;">A</div>
+              <div style="width:30px;height:30px;border-radius:50%;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text3);">?</div>
+              <span style="font-size:11px;color:var(--text2);margin-left:5px;">Waiting for 1 more...</span>
+            </div>
+          </div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="ed-foot">
+        <button class="btn-g" onclick="go('chat')">★ Back This Idea — Join the Team</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ PROFILE ═══════════ -->
+    <div class="screen" id="profile">
+      <div class="sbar"><span class="sbar-time">9:41</span><div class="sbar-icons">📶 🔋</div></div>
+      <div class="prf-hdr"><div style="font-size:18px;font-weight:800;">Profile</div><div style="font-size:20px;cursor:pointer;">⚙️</div></div>
+      <div class="scroll">
+        <div class="prf-hero">
+          <div class="prf-av">A</div>
+          <div>
+            <div class="prf-name">Amara Diallo</div>
+            <div><span class="role-badge">🎓 Student · 2024</span></div>
+            <div class="prf-bio">ALU Kigali · Software Engineering track.<br>Passionate about AgriTech &amp; open source.</div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-n" style="color:var(--red);">7</div><div class="stat-l">Events RSVP'd</div></div>
+          <div class="stat"><div class="stat-n" style="color:var(--gold);">3</div><div class="stat-l">Ideas Backed</div></div>
+          <div class="stat"><div class="stat-n" style="color:var(--blue);">4</div><div class="stat-l">Communities</div></div>
+        </div>
+        <div class="tabs">
+          <div class="tab on">My Events</div>
+          <div class="tab">My Ideas</div>
+          <div class="tab">Backed</div>
+        </div>
+        <div class="prf-ev">
+          <div class="prf-ev-ico">🖥️</div>
+          <div style="flex:1;"><div class="prf-ev-title">ALU Tech For Good Hackathon</div><div class="prf-ev-date">📅 Jun 20–22 · Kigali Campus</div></div>
+          <div class="prf-ev-badge" style="background:#0c2816;color:#22a855;">Confirmed</div>
+        </div>
+        <div class="prf-ev">
+          <div class="prf-ev-ico">💡</div>
+          <div style="flex:1;"><div class="prf-ev-title">Design Thinking Workshop</div><div class="prf-ev-date">📅 Jun 15 · 2pm · Room B204</div></div>
+          <div class="prf-ev-badge" style="background:#3d2900;color:#f0a500;">Upcoming</div>
+        </div>
+        <div class="prf-ev">
+          <div class="prf-ev-ico">🏆</div>
+          <div style="flex:1;"><div class="prf-ev-title">SRC Presidential Debate Night</div><div class="prf-ev-date">📅 Jun 18 · 6pm · AH Auditorium</div></div>
+          <div class="prf-ev-badge" style="background:#1a3a5c;color:#58a6ff;">Upcoming</div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item" onclick="go('home')"><div class="bnav-icon">🏠</div><div class="bnav-lbl">Home</div></div>
+        <div class="bnav-item" onclick="go('lpad')"><div class="bnav-icon">🚀</div><div class="bnav-lbl">Launchpad</div><        <div class="bnav-item on" onclick="go('profile')"><div class="bnav-icon">👤</div><div class="bnav-lbl">Profile</div></div>
+      </div>
+    </div>
+
+  </div><!-- /phone-screen -->
+  <div class="phone-frame"></div>
+  <div class="phone-notch"></div>
+</div><!-- /phone-wrap -->
+
+<script>
+  const labels = {
+    splash:   'Splash',
+    ob1:      'Onboard 1',
+    ob2:      'Onboard 2',
+    login:    'Login',
+    register: 'Register',
+    role:     'Role Select',
+    home:     'Home Feed',
+    evdet:    'Event Detail',
+    rsvp:     'RSVP Modal',
+    create:   'Create Post',
+    comms:    'Communities',
+    chat:     'Chat Room',
+    lpad:     'Launchpad',
+    postidea: 'Post Idea',
+    iddet:    'Idea Detail',
+    profile:  'Profile'
+  };
+
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.trim() === labels[id]);
+    });
+  }
+</script>
+</body>
+</html>
