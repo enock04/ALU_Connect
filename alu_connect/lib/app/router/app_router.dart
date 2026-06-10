@@ -6,6 +6,7 @@ import '../../features/feed/event_detail_screen.dart';
 import '../../features/feed/feed_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/shell/main_shell.dart';
+import '../../features/splash/splash_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/role_selection_screen.dart';
@@ -117,8 +118,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.home,
             name: 'home',
-            builder: (_, _) => const _PlaceholderScreen('Home Feed'),
-            // TODO: Member 3 → HomeFeedScreen()
+            builder: (_, _) => const FeedScreen(),
             routes: [
               GoRoute(
                 path: 'event/:id',
