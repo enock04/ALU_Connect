@@ -1,14 +1,17 @@
-// lib/widgets/my_events_tab.dart
-// This widget is used inside the Profile screen as the "My RSVPs / My Events" tab.
+// lib/features/feed/widgets/my_events_tab.dart
+// "My Events" tab shown inside the Profile screen.
+// Displays events the current user has RSVP'd to, with a cancel option.
+// TODO(Member 3): swap mockEvents for an RSVPProvider that queries Supabase.
 
 import 'package:flutter/material.dart';
-import '../models/event_model.dart';
-import '../screens/event_detail_screen.dart';
-import '../screens/home_feed_screen.dart'
-    show categoryColors, kBg, kCard, kAccentBlue, kAccentRed, kTextPrimary, kTextSecondary, kBorder;
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import '../../../app/router/app_router.dart';
+import '../../../app/theme/app_theme.dart';
+import '../../../core/data/mock_data.dart';
+import '../../../core/models/event_model.dart';
 
 class MyEventsTab extends StatelessWidget {
-  // Pass in the set of RSVP'd event IDs from your state management
   final Set<String> rsvpedIds;
   final Function(String) onCancelRsvp;
 
@@ -18,14 +21,12 @@ class MyEventsTab extends StatelessWidget {
     required this.onCancelRsvp,
   });
 
-  List<Event> get _myEvents =>
+  List<EventModel> get _myEvents =>
       mockEvents.where((e) => rsvpedIds.contains(e.id)).toList();
 
   @override
   Widget build(BuildContext context) {
-    if (_myEvents.isEmpty) {
-      return _EmptyMyEvents();
-    }
+    if (_myEvents.isEmpty) return const _EmptyMyEvents();
 
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -34,16 +35,7 @@ class MyEventsTab extends StatelessWidget {
         final event = _myEvents[index];
         return _MyEventCard(
           event: event,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => EventDetailScreen(
-                event: event,
-                isRsvped: true,
-                onRsvp: () => onCancelRsvp(event.id),
-              ),
-            ),
-          ),
+          onTap: () => context.push(AppRoutes.eventDetailPath(event.id)),
           onCancel: () => onCancelRsvp(event.id),
         );
       },
@@ -51,9 +43,23 @@ class MyEventsTab extends StatelessWidget {
   }
 }
 
-// ─── My Event card ────────────────────────────────────────────────────────────
+Color _categoryColor(EventCategory category) {
+  switch (category) {
+    case EventCategory.academic:
+      return ALUColors.blue;
+    case EventCategory.career:
+      return ALUColors.teal;
+    case EventCategory.social:
+      return ALUColors.gold;
+    case EventCategory.venture:
+      return ALUColors.red;
+    case EventCategory.student:
+      return ALUColors.navyLight;
+  }
+}
+
 class _MyEventCard extends StatelessWidget {
-  final Event event;
+  final EventModel event;
   final VoidCallback onTap;
   final VoidCallback onCancel;
 
@@ -65,23 +71,23 @@ class _MyEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        categoryColors[event.category] ?? const Color(0xFF1D6FA4);
+    final color = _categoryColor(event.category);
+    final dateStr = DateFormat('MMM d, yyyy').format(event.eventDate);
+    final timeStr = DateFormat('h:mm a').format(event.eventDate);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: kCard,
+          color: ALUColors.card,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: kBorder),
+          border: Border.all(color: ALUColors.border),
         ),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(
             children: [
-              // Color accent bar
               Container(
                 width: 4,
                 height: 60,
@@ -91,7 +97,6 @@ class _MyEventCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              // Event info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +104,7 @@ class _MyEventCard extends StatelessWidget {
                     Text(
                       event.title,
                       style: const TextStyle(
-                        color: kTextPrimary,
+                        color: ALUColors.textPrimary,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
@@ -110,12 +115,12 @@ class _MyEventCard extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(Icons.calendar_today_outlined,
-                            color: kTextSecondary, size: 12),
+                            color: ALUColors.textSecondary, size: 12),
                         const SizedBox(width: 4),
                         Text(
-                          '${event.date}  ·  ${event.time}',
+                          '$dateStr  ·  $timeStr',
                           style: const TextStyle(
-                            color: kTextSecondary,
+                            color: ALUColors.textSecondary,
                             fontSize: 12,
                           ),
                         ),
@@ -125,13 +130,17 @@ class _MyEventCard extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(Icons.location_on_outlined,
-                            color: kTextSecondary, size: 12),
+                            color: ALUColors.textSecondary, size: 12),
                         const SizedBox(width: 4),
-                        Text(
-                          event.location,
-                          style: const TextStyle(
-                            color: kTextSecondary,
-                            fontSize: 12,
+                        Expanded(
+                          child: Text(
+                            event.location,
+                            style: const TextStyle(
+                              color: ALUColors.textSecondary,
+                              fontSize: 12,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -140,23 +149,20 @@ class _MyEventCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              // RSVP'd badge + cancel
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: kAccentBlue.withOpacity(0.15),
+                      color: ALUColors.blue.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                          color: kAccentBlue.withOpacity(0.4)),
+                      border: Border.all(color: ALUColors.blue.withValues(alpha: 0.4)),
                     ),
                     child: const Text(
-                      'RSVP\'d',
+                      "RSVP'd",
                       style: TextStyle(
-                        color: kAccentBlue,
+                        color: ALUColors.blue,
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                       ),
@@ -168,7 +174,7 @@ class _MyEventCard extends StatelessWidget {
                     child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: kAccentRed,
+                        color: ALUColors.red,
                         fontSize: 12,
                       ),
                     ),
@@ -183,25 +189,29 @@ class _MyEventCard extends StatelessWidget {
   }
 }
 
-// ─── Empty state ──────────────────────────────────────────────────────────────
 class _EmptyMyEvents extends StatelessWidget {
+  const _EmptyMyEvents();
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.event_outlined,
-              size: 52, color: kTextSecondary.withOpacity(0.4)),
+          Icon(
+            Icons.event_outlined,
+            size: 52,
+            color: ALUColors.textSecondary.withValues(alpha: 0.4),
+          ),
           const SizedBox(height: 12),
           const Text(
             'No events yet',
-            style: TextStyle(color: kTextSecondary, fontSize: 15),
+            style: TextStyle(color: ALUColors.textSecondary, fontSize: 15),
           ),
           const SizedBox(height: 6),
           const Text(
             'RSVP to events from the Home feed',
-            style: TextStyle(color: kTextSecondary, fontSize: 13),
+            style: TextStyle(color: ALUColors.textSecondary, fontSize: 13),
           ),
         ],
       ),
