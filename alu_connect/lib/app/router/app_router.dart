@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/providers/auth_state.dart';
-import '../../features/splash/splash_screen.dart';
+import '../../features/feed/event_detail_screen.dart';
+import '../../features/feed/feed_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/shell/main_shell.dart';
 import '../../features/auth/screens/login_screen.dart';
@@ -124,8 +125,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 name: 'eventDetail',
                 builder: (_, state) {
                   final id = state.pathParameters['id'] ?? '';
-                  return _PlaceholderScreen('Event Detail ($id)');
-                  // TODO: Member 3 → EventDetailScreen(id: id)
+                  return EventDetailScreen(eventId: id);
                 },
               ),
             ],
