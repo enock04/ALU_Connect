@@ -1,8 +1,3 @@
-// lib/features/feed/widgets/my_events_tab.dart
-// "My Events" tab shown inside the Profile screen.
-// Displays events the current user has RSVP'd to, with a cancel option.
-// TODO(Member 3): swap mockEvents for an RSVPProvider that queries Supabase.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +5,7 @@ import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/data/mock_data.dart';
 import '../../../core/models/event_model.dart';
+import 'event_card.dart' show categoryColor;
 
 class MyEventsTab extends StatelessWidget {
   final Set<String> rsvpedIds;
@@ -43,21 +39,6 @@ class MyEventsTab extends StatelessWidget {
   }
 }
 
-Color _categoryColor(EventCategory category) {
-  switch (category) {
-    case EventCategory.academic:
-      return ALUColors.blue;
-    case EventCategory.career:
-      return ALUColors.teal;
-    case EventCategory.social:
-      return ALUColors.gold;
-    case EventCategory.venture:
-      return ALUColors.red;
-    case EventCategory.student:
-      return ALUColors.navyLight;
-  }
-}
-
 class _MyEventCard extends StatelessWidget {
   final EventModel event;
   final VoidCallback onTap;
@@ -71,7 +52,7 @@ class _MyEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _categoryColor(event.category);
+    final color = categoryColor(event.category);
     final dateStr = DateFormat('MMM d, yyyy').format(event.eventDate);
     final timeStr = DateFormat('h:mm a').format(event.eventDate);
 

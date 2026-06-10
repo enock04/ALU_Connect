@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/providers/auth_state.dart';
-import '../../features/splash/splash_screen.dart';
+import '../../features/feed/event_detail_screen.dart';
+import '../../features/feed/feed_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/shell/main_shell.dart';
+import '../../features/splash/splash_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -101,16 +103,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.home,
             name: 'home',
-            builder: (_, __) => const _PlaceholderScreen('Home Feed'),
-            // TODO: Member 3 → HomeFeedScreen()
+            builder: (_, __) => const FeedScreen(),
             routes: [
               GoRoute(
                 path: 'event/:id',
                 name: 'eventDetail',
                 builder: (_, state) {
                   final id = state.pathParameters['id'] ?? '';
-                  return _PlaceholderScreen('Event Detail ($id)');
-                  // TODO: Member 3 → EventDetailScreen(id: id)
+                  return EventDetailScreen(eventId: id);
                 },
               ),
             ],
