@@ -56,7 +56,7 @@ class InlineError extends StatelessWidget {
       decoration: BoxDecoration(
         color: ALUColors.redDim,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ALUColors.red.withOpacity(0.4)),
+        border: Border.all(color: ALUColors.red.withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [

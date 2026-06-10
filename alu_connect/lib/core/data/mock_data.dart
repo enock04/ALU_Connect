@@ -71,7 +71,7 @@ final mockEvents = [
 ];
 
 final mockCommunities = [
-  CommunityModel(
+  const CommunityModel(
     id: 'comm-001',
     name: 'Tech Crew ALU',
     description: 'Software engineers, designers, and builders. '
@@ -79,7 +79,7 @@ final mockCommunities = [
     memberCount: 234,
     isJoined: true,
   ),
-  CommunityModel(
+  const CommunityModel(
     id: 'comm-002',
     name: 'ALU Ventures',
     description: 'Entrepreneurs and startup founders. '
@@ -87,7 +87,7 @@ final mockCommunities = [
     memberCount: 187,
     isJoined: false,
   ),
-  CommunityModel(
+  const CommunityModel(
     id: 'comm-003',
     name: 'Debate Society',
     description: 'Sharpen your arguments and public speaking. '
@@ -95,7 +95,7 @@ final mockCommunities = [
     memberCount: 95,
     isJoined: true,
   ),
-  CommunityModel(
+  const CommunityModel(
     id: 'comm-004',
     name: 'Finance & Investment Club',
     description: 'Stock market simulations, personal finance workshops, '
@@ -103,7 +103,7 @@ final mockCommunities = [
     memberCount: 142,
     isJoined: false,
   ),
-  CommunityModel(
+  const CommunityModel(
     id: 'comm-005',
     name: 'Wellness & Fitness',
     description: 'Morning runs, meditation, and mental health check-ins. '
