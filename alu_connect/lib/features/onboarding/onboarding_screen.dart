@@ -126,9 +126,9 @@ class _SlideView extends StatelessWidget {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: slide.accent.withOpacity(0.15),
+              color: slide.accent.withValues(alpha: 0.15),
               shape: BoxShape.circle,
-              border: Border.all(color: slide.accent.withOpacity(0.4), width: 2),
+              border: Border.all(color: slide.accent.withValues(alpha: 0.4), width: 2),
             ),
             child: Icon(slide.icon, size: 54, color: slide.accent),
           ),
