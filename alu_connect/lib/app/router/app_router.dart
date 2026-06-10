@@ -5,6 +5,12 @@ import '../../core/providers/auth_state.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/shell/main_shell.dart';
+import '../../features/auth/screens/login_screen.dart';
+import '../../features/auth/screens/register_screen.dart';
+import '../../features/auth/screens/role_selection_screen.dart';
+import '../../features/auth/screens/settings_screen.dart';
+import '../../features/profile/screens/profile_screen.dart';
+import '../../features/profile/screens/edit_profile_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -12,6 +18,8 @@ class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
   static const String roleSelect = '/role';
+  static const String editProfile = '/edit-profile';
+  static const String settings = '/settings';
 
   static const String home = '/home';
   static const String launchpad = '/launchpad';
@@ -57,7 +65,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: authNotifier,
     redirect: (context, state) {
       final loc = state.uri.path;
-      const publicRoutes = ['/', '/onboarding', '/login', '/register', '/role'];
+      const publicRoutes = ['/', '/onboarding', '/login', '/register'];
       final isPublic = publicRoutes.contains(loc);
       final isLoggedIn = authNotifier.isLoggedIn;
 
@@ -69,30 +77,37 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.splash,
         name: 'splash',
-        builder: (_, __) => const SplashScreen(),
+        builder: (_, _) => const SplashScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboarding,
         name: 'onboarding',
-        builder: (_, __) => const OnboardingScreen(),
+        builder: (_, _) => const OnboardingScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,
         name: 'login',
-        builder: (_, __) => const _PlaceholderScreen('Login'),
-        // TODO: Member 2 → LoginScreen()
+        builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.register,
         name: 'register',
-        builder: (_, __) => const _PlaceholderScreen('Register'),
-        // TODO: Member 2 → RegisterScreen()
+        builder: (_, _) => const RegisterScreen(),
       ),
       GoRoute(
         path: AppRoutes.roleSelect,
         name: 'roleSelect',
-        builder: (_, __) => const _PlaceholderScreen('Role Select'),
-        // TODO: Member 2 → RoleSelectScreen()
+        builder: (_, _) => const RoleSelectionScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.editProfile,
+        name: 'editProfile',
+        builder: (_, _) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        name: 'settings',
+        builder: (_, _) => const SettingsScreen(),
       ),
 
       ShellRoute(
@@ -101,7 +116,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.home,
             name: 'home',
-            builder: (_, __) => const _PlaceholderScreen('Home Feed'),
+            builder: (_, _) => const _PlaceholderScreen('Home Feed'),
             // TODO: Member 3 → HomeFeedScreen()
             routes: [
               GoRoute(
@@ -118,7 +133,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.launchpad,
             name: 'launchpad',
-            builder: (_, __) => const _PlaceholderScreen('Launchpad'),
+            builder: (_, _) => const _PlaceholderScreen('Launchpad'),
             // TODO: Member 5 → LaunchpadScreen()
             routes: [
               GoRoute(
@@ -133,7 +148,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'post-idea',
                 name: 'postIdea',
-                builder: (_, __) => const _PlaceholderScreen('Post Idea'),
+                builder: (_, _) => const _PlaceholderScreen('Post Idea'),
                 // TODO: Member 5 → PostIdeaScreen()
               ),
             ],
@@ -141,13 +156,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.create,
             name: 'create',
-            builder: (_, __) => const _PlaceholderScreen('Create Post'),
+            builder: (_, _) => const _PlaceholderScreen('Create Post'),
             // TODO: Member 4 → CreatePostScreen()
           ),
           GoRoute(
             path: AppRoutes.communities,
             name: 'communities',
-            builder: (_, __) => const _PlaceholderScreen('Communities'),
+            builder: (_, _) => const _PlaceholderScreen('Communities'),
             // TODO: Member 4 → CommunitiesScreen()
             routes: [
               GoRoute(
@@ -164,8 +179,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.profile,
             name: 'profile',
-            builder: (_, __) => const _PlaceholderScreen('Profile'),
-            // TODO: Member 2 → ProfileScreen()
+            builder: (_, _) => const ProfileScreen(),
           ),
         ],
       ),
