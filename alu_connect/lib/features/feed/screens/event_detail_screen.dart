@@ -1,13 +1,13 @@
-// lib/features/feed/event_detail_screen.dart
+// lib/features/feed/screens/event_detail_screen.dart
 // Full event detail view — body text, date/time, location, capacity, RSVP.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../app/theme/app_theme.dart';
-import '../../core/models/event_model.dart';
-import 'providers/feed_provider.dart';
-import 'widgets/event_card.dart';
+import '../../../app/theme/app_theme.dart';
+import '../../../core/models/event_model.dart';
+import '../providers/feed_provider.dart';
+import '../widgets/event_card.dart';
 
 class EventDetailScreen extends ConsumerWidget {
   final String eventId;

@@ -1,12 +1,12 @@
-// lib/features/feed/feed_screen.dart
+// lib/features/feed/screens/feed_screen.dart
 // Home feed — scrollable list of upcoming events with category filter.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../app/theme/app_theme.dart';
-import '../../core/models/event_model.dart';
-import 'providers/feed_provider.dart';
-import 'widgets/event_card.dart';
+import '../../../app/theme/app_theme.dart';
+import '../../../core/models/event_model.dart';
+import '../providers/feed_provider.dart';
+import '../widgets/event_card.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
