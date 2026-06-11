@@ -3,7 +3,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/models/idea_model.dart';
 import '../../../core/data/mock_data.dart';
 import '../../../core/config/supabase_config.dart';
-import '../../auth/providers/profile_provider.dart';
 
 class LaunchpadState {
   final List<IdeaModel> ideas;
@@ -43,26 +42,22 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     try {
       final rows = await _db
           .from(SupabaseTables.ideas)
-          .select('*, idea_backers(user_id)')
+          .select('*, idea_backers(backer_id)')
           .order('created_at', ascending: false);
 
       final ideas = (rows as List).map((row) {
         final backers = (row['idea_backers'] as List?) ?? [];
         final isBackedByMe = _userId != null &&
-            backers.any((b) => b['user_id'] == _userId);
+            backers.any((b) => b['backer_id'] == _userId);
         return IdeaModel.fromJson({
           ...row,
           'is_backed_by_me': isBackedByMe,
         });
       }).toList();
 
-      // fall back to mock data when DB is empty (dev / before seeding)
-      state = state.copyWith(
-        loading: false,
-        ideas: ideas.isEmpty ? mockIdeas : ideas,
-      );
+      state = state.copyWith(loading: false, ideas: ideas);
     } catch (e) {
-      // fall back to mock data on any network / query error
+      // fall back to mock data so the UI is never blank during dev
       state = state.copyWith(loading: false, ideas: mockIdeas, error: e.toString());
     }
   }
@@ -72,7 +67,6 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     required String problemStatement,
     required IdeaDomain domain,
     required List<SkillTag> skillsNeeded,
-    required UserProfile profile,
   }) async {
     if (_userId == null) return;
     state = state.copyWith(submitting: true, error: null);
@@ -83,8 +77,6 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
         'domain': domain.name,
         'skills_needed': skillsNeeded.map((s) => s.name).toList(),
         'founder_id': _userId,
-        'founder_name': profile.fullName,
-        'founder_avatar': profile.avatarUrl,
       }).select().single();
 
       final newIdea = IdeaModel.fromJson(row);
@@ -103,7 +95,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     try {
       await _db.from(SupabaseTables.backers).insert({
         'idea_id': ideaId,
-        'user_id': _userId,
+        'backer_id': _userId,
       });
 
       // refresh just this idea's backer count from db
@@ -141,7 +133,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
           .from(SupabaseTables.backers)
           .delete()
           .eq('idea_id', ideaId)
-          .eq('user_id', _userId);
+          .eq('backer_id', _userId);
 
       final row = await _db
           .from(SupabaseTables.ideas)
@@ -165,7 +157,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
       final row = await _db.from(SupabaseTables.chatRooms).insert({
         'name': '${idea.title} — Team Chat',
         'idea_id': ideaId,
-        'type': 'team_chat',
+        'is_team_chat': true,
       }).select().single();
 
       final roomId = row['id'] as String;
