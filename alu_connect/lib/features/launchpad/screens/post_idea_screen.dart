@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/models/idea_model.dart';
 import '../../../shared/widgets/alu_button.dart';
+import '../../auth/providers/profile_provider.dart';
 import '../providers/launchpad_provider.dart';
 
 class PostIdeaScreen extends ConsumerStatefulWidget {
@@ -37,18 +39,27 @@ class _PostIdeaScreenState extends ConsumerState<PostIdeaScreen> {
       return;
     }
 
+    final profile = ref.read(currentProfileProvider);
+    if (profile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile not loaded. Please try again.')),
+      );
+      return;
+    }
+
     await ref.read(launchpadProvider.notifier).postIdea(
           title: _titleCtrl.text,
           problemStatement: _problemCtrl.text,
           domain: _selectedDomain,
           skillsNeeded: _selectedSkills.toList(),
+          profile: profile,
         );
 
     if (!mounted) return;
 
     final error = ref.read(launchpadProvider).error;
     if (error == null) {
-      Navigator.of(context).pop();
+      context.pop();
     }
   }
 
@@ -62,7 +73,7 @@ class _PostIdeaScreenState extends ConsumerState<PostIdeaScreen> {
         backgroundColor: ALUColors.background,
         leading: IconButton(
           icon: const Icon(Icons.close_rounded, color: ALUColors.textPrimary),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
           'Post an Idea',

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/models/idea_model.dart';
+import '../../auth/providers/profile_provider.dart';
 import '../../../core/data/mock_data.dart';
 import '../../../core/config/supabase_config.dart';
 
@@ -42,13 +43,13 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     try {
       final rows = await _db
           .from(SupabaseTables.ideas)
-          .select('*, idea_backers(backer_id)')
+          .select('*, idea_backers(user_id)')
           .order('created_at', ascending: false);
 
       final ideas = (rows as List).map((row) {
         final backers = (row['idea_backers'] as List?) ?? [];
         final isBackedByMe = _userId != null &&
-            backers.any((b) => b['backer_id'] == _userId);
+            backers.any((b) => b['user_id'] == _userId);
         return IdeaModel.fromJson({
           ...row,
           'is_backed_by_me': isBackedByMe,
@@ -67,6 +68,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     required String problemStatement,
     required IdeaDomain domain,
     required List<SkillTag> skillsNeeded,
+    required UserProfile profile,
   }) async {
     if (_userId == null) return;
     state = state.copyWith(submitting: true, error: null);
@@ -77,6 +79,8 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
         'domain': domain.name,
         'skills_needed': skillsNeeded.map((s) => s.name).toList(),
         'founder_id': _userId,
+        'founder_name': profile.fullName,
+        'founder_avatar': profile.avatarUrl ?? '',
       }).select().single();
 
       final newIdea = IdeaModel.fromJson(row);
@@ -95,7 +99,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
     try {
       await _db.from(SupabaseTables.backers).insert({
         'idea_id': ideaId,
-        'backer_id': _userId,
+        'user_id': _userId,
       });
 
       // refresh just this idea's backer count from db
@@ -133,7 +137,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
           .from(SupabaseTables.backers)
           .delete()
           .eq('idea_id', ideaId)
-          .eq('backer_id', _userId);
+          .eq('user_id', _userId);
 
       final row = await _db
           .from(SupabaseTables.ideas)
@@ -157,7 +161,7 @@ class LaunchpadNotifier extends StateNotifier<LaunchpadState> {
       final row = await _db.from(SupabaseTables.chatRooms).insert({
         'name': '${idea.title} — Team Chat',
         'idea_id': ideaId,
-        'is_team_chat': true,
+        'type': 'team_chat',
       }).select().single();
 
       final roomId = row['id'] as String;

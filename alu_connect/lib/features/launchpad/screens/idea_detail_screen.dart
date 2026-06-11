@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../app/router/app_router.dart';
+import '../../../core/models/idea_model.dart';
 import '../providers/launchpad_provider.dart';
 import '../widgets/idea_card.dart';
 
@@ -209,7 +210,7 @@ class IdeaDetailScreen extends ConsumerWidget {
 }
 
 class _BackerProgress extends StatelessWidget {
-  final dynamic idea;
+  final IdeaModel idea;
   final double progress;
   const _BackerProgress({required this.idea, required this.progress});
 
@@ -222,7 +223,7 @@ class _BackerProgress extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${idea.backerCount} / ${idea.backerThreshold ?? 3} backers',
+              '${idea.backerCount} / ${IdeaModel.backerThreshold} backers',
               style: const TextStyle(fontSize: 13, color: ALUColors.textSecondary),
             ),
             Text(
