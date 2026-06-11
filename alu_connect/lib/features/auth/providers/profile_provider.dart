@@ -188,7 +188,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         if (username != null) 'username': username.trim().toLowerCase(),
         if (bio != null) 'bio': bio.trim(),
         if (campus != null) 'campus': campus.trim(),
-        'cohort_year': ?cohortYear,
+        if (cohortYear != null) 'cohort_year': cohortYear,
       };
       await _supabase.from('profiles').update(updates).eq('id', _userId);
       state = state.copyWith(

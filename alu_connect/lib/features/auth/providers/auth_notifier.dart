@@ -98,7 +98,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         data: {
           'full_name': fullName.trim(),
           'username': username.trim().toLowerCase(),
-          'cohort_year': ?cohortYear,
+          if (cohortYear != null) 'cohort_year': cohortYear,
         },
       );
 

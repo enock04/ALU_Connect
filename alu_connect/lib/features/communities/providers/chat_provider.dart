@@ -113,10 +113,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       sentAt: DateTime.now(),
       isMe: true,
     );
-    state = state.copyWith(
-      messages: [...state.messages, optimistic],
-      sending: false,
-    );
+    state = state.copyWith(messages: [...state.messages, optimistic]);
 
     try {
       await _db.from(SupabaseTables.messages).insert({
@@ -129,6 +126,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       // realtime callback will add the real message; remove temp
       state = state.copyWith(
         messages: state.messages.where((m) => m.id != tempId).toList(),
+        sending: false,
       );
     } catch (e) {
       // remove optimistic message on failure

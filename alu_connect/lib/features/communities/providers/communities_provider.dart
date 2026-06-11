@@ -52,14 +52,14 @@ class CommunitiesState {
   final List<ChatRoom> communities;
   final List<ChatRoom> myTeamChats;
   final bool loading;
-  final bool joining;
+  final String? joiningRoomId;
   final String? error;
 
   const CommunitiesState({
     this.communities = const [],
     this.myTeamChats = const [],
     this.loading = false,
-    this.joining = false,
+    this.joiningRoomId,
     this.error,
   });
 
@@ -67,14 +67,15 @@ class CommunitiesState {
     List<ChatRoom>? communities,
     List<ChatRoom>? myTeamChats,
     bool? loading,
-    bool? joining,
+    String? joiningRoomId,
+    bool clearJoining = false,
     String? error,
   }) =>
       CommunitiesState(
         communities: communities ?? this.communities,
         myTeamChats: myTeamChats ?? this.myTeamChats,
         loading: loading ?? this.loading,
-        joining: joining ?? this.joining,
+        joiningRoomId: clearJoining ? null : (joiningRoomId ?? this.joiningRoomId),
         error: error,
       );
 }
@@ -143,7 +144,7 @@ class CommunitiesNotifier extends StateNotifier<CommunitiesState> {
 
   Future<void> joinCommunity(String roomId) async {
     if (_userId == null) return;
-    state = state.copyWith(joining: true, error: null);
+    state = state.copyWith(joiningRoomId: roomId, error: null);
     try {
       await _db.from(SupabaseTables.communityMembers).upsert({
         'room_id': roomId,
@@ -153,7 +154,7 @@ class CommunitiesNotifier extends StateNotifier<CommunitiesState> {
       await _db.rpc('increment_member_count', params: {'room_id': roomId}).catchError((_) => null);
 
       state = state.copyWith(
-        joining: false,
+        clearJoining: true,
         communities: state.communities.map((c) {
           if (c.id == roomId) {
             return c.copyWith(isJoined: true, memberCount: c.memberCount + 1);
@@ -162,13 +163,13 @@ class CommunitiesNotifier extends StateNotifier<CommunitiesState> {
         }).toList(),
       );
     } catch (e) {
-      state = state.copyWith(joining: false, error: e.toString());
+      state = state.copyWith(clearJoining: true, error: e.toString());
     }
   }
 
   Future<void> leaveCommunity(String roomId) async {
     if (_userId == null) return;
-    state = state.copyWith(joining: true, error: null);
+    state = state.copyWith(joiningRoomId: roomId, error: null);
     try {
       await _db
           .from(SupabaseTables.communityMembers)
@@ -177,7 +178,7 @@ class CommunitiesNotifier extends StateNotifier<CommunitiesState> {
           .eq('user_id', _userId);
 
       state = state.copyWith(
-        joining: false,
+        clearJoining: true,
         communities: state.communities.map((c) {
           if (c.id == roomId) {
             return c.copyWith(
@@ -189,7 +190,7 @@ class CommunitiesNotifier extends StateNotifier<CommunitiesState> {
         }).toList(),
       );
     } catch (e) {
-      state = state.copyWith(joining: false, error: e.toString());
+      state = state.copyWith(clearJoining: true, error: e.toString());
     }
   }
 

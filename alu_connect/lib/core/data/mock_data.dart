@@ -4,97 +4,74 @@ import '../models/models.dart';
 // Member 3 (Feed) swaps events/communities with Supabase queries.
 // Member 5 (Launchpad) swaps ideas with Supabase queries.
 
-// Real ALU announcements sourced from the community WhatsApp channel (June 2026).
-// Member 3: swap this list with a Supabase query once posts are seeded.
 final mockEvents = [
   EventModel(
     id: 'evt-001',
-    title: 'Internship Season 101',
-    body: 'Still figuring out how to land an internship? Already have one and '
-        'wondering how to make it count?\n\n'
-        'Join us for Internship Season 101 — a practical conversation on how to '
-        'secure internship opportunities, maximise your experience, and turn '
-        'internships into long-term career growth.\n\n'
-        'Featuring:\n'
-        '• Seyifunmi Olafioye — Senior Product Manager at Renmoney MFB & '
-        'Founder of The Product Notebook\n'
-        '• Dolapo Oshikoya — Product Manager at PaidHR & 2025 Lagos State '
-        'Youth Ambassador\n\n'
-        'What you\'ll learn:\n'
-        '• How to find and secure internship opportunities\n'
-        '• How to make the most of your internship experience\n'
-        '• How to build skills and relationships that support long-term growth '
-        'in tech\n'
-        '• Lessons from real internship and early-career journeys',
-    category: EventCategory.career,
-    eventDate: DateTime(2026, 6, 11, 19, 0),
-    location: 'Online — link shared via community channel',
-    organiserName: 'ALU Career Services',
-    rsvpCount: 61,
-    createdAt: DateTime(2026, 6, 5, 20, 43),
+    title: 'Startup Pitch Night — Kigali',
+    body: 'Present your venture to a panel of investors and ALU faculty. '
+        'Selected pitches receive seed funding up to \$5,000.',
+    category: EventCategory.venture,
+    eventDate: DateTime.now().add(const Duration(days: 7)),
+    location: 'ALU Auditorium, Kigali',
+    organiserName: 'ALU Ventures Club',
+    rsvpCount: 42,
+    capacity: 80,
+    createdAt: DateTime.now().subtract(const Duration(days: 2)),
   ),
   EventModel(
     id: 'evt-002',
-    title: 'Arts & Culture for Climate — London Climate Action Week',
-    body: 'Arts & Culture for Climate takes place on Wednesday 24 June 2026 at '
-        'SOAS University of London during London Climate Action Week 2026. '
-        'Hosted by The Ramphal Institute in collaboration with the Royal African '
-        'Society.\n\n'
-        'The event brings together artists, cultural leaders, youth advocates, '
-        'and diplomats to explore how art, culture, and heritage can shape our '
-        'response to the climate crisis.\n\n'
-        'The organisers are looking for a Rwandan creative to contribute:\n'
-        '• Photographer, visual artist, or filmmaker — a photo essay, artwork, '
-        'or short film that tells Rwanda\'s climate story. This could capture '
-        'Rwanda\'s reforestation, its plastic-free streets, recycling and waste '
-        'innovation, community environmental practice, or its relationship with '
-        'the natural landscape.\n\n'
-        'Selected work will be screened or displayed on the night. This is a '
-        'free opportunity to showcase your talent on an international stage.\n\n'
-        'Interested? Reach out to Paul Udah directly to be connected with the '
-        'organising team.',
-    category: EventCategory.social,
-    eventDate: DateTime(2026, 6, 24, 18, 0),
-    location: 'SOAS University of London, UK',
-    organiserName: 'The Ramphal Institute',
-    rsvpCount: 14,
-    createdAt: DateTime(2026, 6, 9, 22, 6),
+    title: 'LinkedIn Profile Workshop',
+    body: 'Optimise your LinkedIn for internship and job hunting. '
+        'Bring your laptop — live profile edits with Career Services.',
+    category: EventCategory.career,
+    eventDate: DateTime.now().add(const Duration(days: 3)),
+    location: 'Block B, Seminar Room 3',
+    organiserName: 'Career Services',
+    rsvpCount: 28,
+    capacity: 30,
+    createdAt: DateTime.now().subtract(const Duration(days: 1)),
   ),
   EventModel(
     id: 'evt-003',
-    title: 'LadX is Hiring — Intra-African Trade Infrastructure',
-    body: 'LadX is building the infrastructure for intra-African trade — and '
-        'they\'re looking for sharp, driven people to grow with them.\n\n'
-        'Based in Kigali, Rwanda.\n\n'
-        'To apply:\n'
-        '• Send your CV to: dominion@ladx.io\n'
-        '• View all open roles via the link in the community channel\n\n'
-        'This is a ground-floor opportunity to work on infrastructure that '
-        'matters for the continent.',
-    category: EventCategory.career,
-    eventDate: DateTime(2026, 6, 20, 9, 0),
-    location: 'Kigali, Rwanda',
-    organiserName: 'LadX',
-    rsvpCount: 23,
-    createdAt: DateTime(2026, 6, 10, 14, 29),
+    title: 'Pan-African Culture Festival 2026',
+    body: 'Celebrate ALU\'s diversity with food, music, art, and performances '
+        'from across the continent.',
+    category: EventCategory.social,
+    eventDate: DateTime.now().add(const Duration(days: 14)),
+    location: 'ALU Campus Grounds',
+    organiserName: 'Student Representative Council',
+    rsvpCount: 156,
+    createdAt: DateTime.now().subtract(const Duration(hours: 6)),
   ),
   EventModel(
     id: 'evt-004',
-    title: 'CMU Info Session — On Campus',
-    body: 'Carnegie Mellon University held an info session for ALU students '
-        'across the Kenya and Burundi campuses. Recordings and materials will '
-        'be shared through the community channel for those who missed it.',
+    title: 'ML Study Circle — Backprop from Scratch',
+    body: 'Weekly deep-dive into ML fundamentals. '
+        'This week: implementing backpropagation in pure Python.',
     category: EventCategory.academic,
-    eventDate: DateTime(2026, 6, 5, 10, 13),
-    location: 'ALU Campuses — Kenya & Burundi',
-    organiserName: 'ALU',
-    rsvpCount: 38,
-    createdAt: DateTime(2026, 6, 5, 10, 13),
+    eventDate: DateTime.now().add(const Duration(days: 2)),
+    location: 'Innovation Lab, Floor 2',
+    organiserName: 'Tech Crew ALU',
+    rsvpCount: 19,
+    capacity: 25,
+    createdAt: DateTime.now().subtract(const Duration(hours: 12)),
+  ),
+  EventModel(
+    id: 'evt-005',
+    title: 'SRC Town Hall — Semester 2',
+    body: 'Open forum with student leadership. Raise concerns, vote on policy '
+        'changes, and hear updates on campus projects.',
+    category: EventCategory.student,
+    eventDate: DateTime.now().add(const Duration(days: 5)),
+    location: 'Main Lecture Hall',
+    organiserName: 'Student Representative Council',
+    rsvpCount: 87,
+    createdAt: DateTime.now().subtract(const Duration(days: 3)),
   ),
 ];
 
 final mockCommunities = [
-  const CommunityModel(
+  CommunityModel(
     id: 'comm-001',
     name: 'Tech Crew ALU',
     description: 'Software engineers, designers, and builders. '
@@ -102,7 +79,7 @@ final mockCommunities = [
     memberCount: 234,
     isJoined: true,
   ),
-  const CommunityModel(
+  CommunityModel(
     id: 'comm-002',
     name: 'ALU Ventures',
     description: 'Entrepreneurs and startup founders. '
@@ -110,7 +87,7 @@ final mockCommunities = [
     memberCount: 187,
     isJoined: false,
   ),
-  const CommunityModel(
+  CommunityModel(
     id: 'comm-003',
     name: 'Debate Society',
     description: 'Sharpen your arguments and public speaking. '
@@ -118,7 +95,7 @@ final mockCommunities = [
     memberCount: 95,
     isJoined: true,
   ),
-  const CommunityModel(
+  CommunityModel(
     id: 'comm-004',
     name: 'Finance & Investment Club',
     description: 'Stock market simulations, personal finance workshops, '
@@ -126,7 +103,7 @@ final mockCommunities = [
     memberCount: 142,
     isJoined: false,
   ),
-  const CommunityModel(
+  CommunityModel(
     id: 'comm-005',
     name: 'Wellness & Fitness',
     description: 'Morning runs, meditation, and mental health check-ins. '
