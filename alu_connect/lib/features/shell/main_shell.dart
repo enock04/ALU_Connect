@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
 import '../../app/router/app_router.dart';
+import '../auth/providers/profile_provider.dart';
 
-class MainShell extends StatelessWidget {
+class MainShell extends ConsumerWidget {
   final Widget child;
   const MainShell({super.key, required this.child});
 
@@ -15,15 +17,21 @@ class MainShell extends StatelessWidget {
     return 0;
   }
 
+  bool _canPost(String? role) =>
+      role == 'organiser' || role == 'club_leader';
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final path = GoRouterState.of(context).uri.path;
     final idx = _tabIndex(path);
+    final role = ref.watch(currentProfileProvider)?.role;
+    final canPost = _canPost(role);
 
     return Scaffold(
       backgroundColor: ALUColors.background,
       body: child,
-      floatingActionButton: idx == 2
+      // FAB only shown on the Create tab, and only for authorised roles
+      floatingActionButton: (idx == 2 && canPost)
           ? FloatingActionButton(
               backgroundColor: ALUColors.red,
               onPressed: () => context.go(AppRoutes.create),
@@ -38,6 +46,18 @@ class MainShell extends StatelessWidget {
         child: BottomNavigationBar(
           currentIndex: idx,
           onTap: (i) {
+            // Block students from tapping Create
+            if (i == 2 && !canPost) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Only Organisers and Club Leaders can create posts.',
+                  ),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+              return;
+            }
             const paths = [
               AppRoutes.home,
               AppRoutes.launchpad,
@@ -54,12 +74,17 @@ class MainShell extends StatelessWidget {
           unselectedLabelStyle: const TextStyle(fontSize: 10),
           type: BottomNavigationBarType.fixed,
           elevation: 0,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.lightbulb_outline), activeIcon: Icon(Icons.lightbulb), label: 'Launchpad'),
-            BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), activeIcon: Icon(Icons.add_circle), label: 'Create'),
-            BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Community'),
-            BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
+          items: [
+            const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+            const BottomNavigationBarItem(icon: Icon(Icons.lightbulb_outline), activeIcon: Icon(Icons.lightbulb), label: 'Launchpad'),
+            BottomNavigationBarItem(
+              // visually dim the Create icon for students so the gate is obvious
+              icon: Icon(Icons.add_circle_outline, color: canPost ? null : ALUColors.border),
+              activeIcon: const Icon(Icons.add_circle),
+              label: 'Create',
+            ),
+            const BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Community'),
+            const BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
       ),

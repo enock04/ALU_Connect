@@ -97,7 +97,7 @@ class _CategoryFilter extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         padding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final cat = categories[index];
