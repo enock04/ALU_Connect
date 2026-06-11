@@ -8,6 +8,39 @@ final supabaseClientProvider = Provider<SupabaseClient>((ref) {
   return Supabase.instance.client;
 });
 
+/// Converts raw Supabase/network exceptions into messages that are safe
+/// and helpful to show directly to the user. Without this, errors like
+/// "SocketException: Failed host lookup" or "ClientException: ..." would
+/// leak straight into the UI.
+String friendlyAuthErrorMessage(Object error) {
+  if (error is AuthApiException) {
+    final msg = error.message.toLowerCase();
+    if (msg.contains('invalid login credentials')) {
+      return 'Incorrect email or password. Please try again.';
+    }
+    if (msg.contains('email not confirmed')) {
+      return 'Please confirm your email before signing in. Check your inbox for the verification link.';
+    }
+    if (msg.contains('already registered') || msg.contains('already exists')) {
+      return 'An account with this email already exists. Try signing in instead.';
+    }
+    if (msg.contains('rate limit')) {
+      return 'Too many attempts. Please wait a moment and try again.';
+    }
+    return error.message;
+  }
+  if (error is AuthSessionMissingException) {
+    return 'Your session has expired. Please sign in again.';
+  }
+  if (error is AuthWeakPasswordException) {
+    return 'Password is too weak. Please choose a stronger password.';
+  }
+  if (error is AuthRetryableFetchException || error is AuthUnknownException) {
+    return 'No internet connection. Please check your network and try again.';
+  }
+  return 'Something went wrong. Please try again.';
+}
+
 enum AuthStatus { initial, loading, authenticated, unauthenticated, error }
 
 class AuthState {
@@ -74,7 +107,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       // onAuthStateChange listener will move us to `authenticated`.
     } on AuthException catch (e) {
-      state = state.copyWith(status: AuthStatus.error, errorMessage: e.message);
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: friendlyAuthErrorMessage(e),
+      );
     } catch (_) {
       state = state.copyWith(
         status: AuthStatus.error,
@@ -111,7 +147,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(status: AuthStatus.unauthenticated);
       }
     } on AuthException catch (e) {
-      state = state.copyWith(status: AuthStatus.error, errorMessage: e.message);
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: friendlyAuthErrorMessage(e),
+      );
     } catch (_) {
       state = state.copyWith(
         status: AuthStatus.error,
@@ -126,7 +165,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _supabase.auth.signOut();
       state = const AuthState(status: AuthStatus.unauthenticated);
     } on AuthException catch (e) {
-      state = state.copyWith(status: AuthStatus.error, errorMessage: e.message);
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: friendlyAuthErrorMessage(e),
+      );
+    } catch (_) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'Something went wrong. Please try again.',
+      );
     }
   }
 
@@ -134,7 +181,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       await _supabase.auth.resetPasswordForEmail(email.trim());
     } on AuthException catch (e) {
-      state = state.copyWith(status: AuthStatus.error, errorMessage: e.message);
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: friendlyAuthErrorMessage(e),
+      );
+    } catch (_) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: 'No internet connection. Please check your network and try again.',
+      );
     }
   }
 
