@@ -85,7 +85,7 @@ class SettingsScreen extends ConsumerWidget {
             const _SettingsTile(
               icon: Icons.info_outline_rounded,
               label: 'App Version',
-              subtitle: '1.0.0 (Member 2 — Auth/Profile)',
+              subtitle: '1.0.0',
               onTap: null,
             ),
 

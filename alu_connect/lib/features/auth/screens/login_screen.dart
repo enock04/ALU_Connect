@@ -222,8 +222,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 AuthOutlineButton(
                   label: 'Create Account',
-                  onPressed: () =>
-                      Navigator.pushReplacementNamed(context, '/register'),
+                  onPressed: () => context.go(AppRoutes.register),
                 ),
 
                 AuthSwitchRow(
