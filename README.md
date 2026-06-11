@@ -56,7 +56,7 @@ ALU Intercampus Connect is a student engagement platform designed to solve a rea
 - Settings and logout
 
 ### Bonus Features
-- QR code scan for event check-in
+- Launchpad - an entreprenurial meetup joint for students with ideas
 - In-app notifications for RSVP confirmations and announcements
 - Smooth animations using flutter_animate
 - Hero transitions between feed and event detail
@@ -69,11 +69,10 @@ ALU Intercampus Connect is a student engagement platform designed to solve a rea
 |---|---|
 | Flutter / Dart | Mobile app framework |
 | SharedPreferences | RSVP state, login session, onboarding completion |
-| sqflite | Local SQLite database for chat message persistence |
+| Supabase | Local SQLite database for chat message persistence |
 | Provider | State management across screens |
 | flutter_animate | Animations and transitions |
 | google_fonts | Plus Jakarta Sans typography |
-| mobile_scanner | QR code scanning for event check-in |
 
 ---
 
@@ -88,10 +87,10 @@ ALU Intercampus Connect is a student engagement platform designed to solve a rea
 
 ```bash
 # Clone the repository
-git clone https://github.com/davidmuo/anza.git
+git clone git@github.com:enock04/ALU_Connect.git
 
 # Move into the project folder
-cd anza
+cd alu_connect
 
 # Install dependencies
 flutter pub get
@@ -113,9 +112,9 @@ flutter run
 | Member | Role | Branch |
 |---|---|---|
 | Enock | Theme, Widgets & Feed | `feature/theme_widget` |
-|Neville | Feed & Discovery | `feature/feed-discovery` |
+|Armstrong| Feed & Discovery | `feature/feed-discovery` |
 | Jotham | Events & RSVP | `feature/events-rsvp` |
-| Aimee| Auth, Onboarding & Config | `feature/auth-onboarding` |
+| Neville| Auth, Onboarding & Config | `feature/auth-onboarding` |
 
 ---
 
@@ -128,7 +127,7 @@ flutter run
 | Critical Thinking | Features justified for ALU context (dual campus filter, role-gated posting) |
 | Navigation | Bottom nav with 5 tabs, Hero transitions, named routes |
 | State Handling | Provider + SharedPreferences + sqflite for full state persistence |
-| Technical Initiative | SharedPreferences, sqflite, flutter_animate, QR scan, role-based access |
+| Technical Initiative | SupaBase, flutter_animate, role-based access |
 | Code Quality | Modular structure, reusable widgets, consistent naming conventions |
 | Error Handling | Empty states, form validation, loading indicators, error messages |
 
