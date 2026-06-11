@@ -156,4 +156,63 @@ final mockIdeas = [
     isBackedByMe: false,
     createdAt: DateTime.now().subtract(const Duration(days: 20)),
   ),
+  IdeaModel(
+    id: 'idea-004',
+    title: 'Farmer-to-Market Price Alert System',
+    problemStatement: 'Smallholder farmers in Rwanda and Nigeria sell below '
+        'market value because they have no visibility on real-time commodity '
+        'prices at nearby markets. An SMS + app price-alert tool could close '
+        'that information gap.',
+    domain: IdeaDomain.agriTech,
+    skillsNeeded: [SkillTag.developer, SkillTag.operations, SkillTag.marketer],
+    founderId: 'user-004',
+    founderName: 'Tolu Adeyemi',
+    backerCount: 3,
+    isBackedByMe: false,
+    createdAt: DateTime.now().subtract(const Duration(days: 8)),
+  ),
+  IdeaModel(
+    id: 'idea-005',
+    title: 'Mental Health Check-In Platform',
+    problemStatement: 'Most ALU students go through at least one mental health '
+        'rough patch per semester but counselling slots are limited and often '
+        'carry stigma. An anonymous peer-support and mood-tracking platform '
+        'could bridge the gap.',
+    domain: IdeaDomain.healthTech,
+    skillsNeeded: [SkillTag.developer, SkillTag.designer, SkillTag.legal],
+    founderId: 'user-005',
+    founderName: 'Naledi Khumalo',
+    backerCount: 11,
+    isBackedByMe: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 3)),
+  ),
+  IdeaModel(
+    id: 'idea-006',
+    title: 'Solar Kiosk Co-op for Off-Grid Communities',
+    problemStatement: 'Millions of households in sub-Saharan Africa still lack '
+        'reliable electricity. A student-run co-op model for solar kiosk '
+        'franchising — owned by local communities — could make clean energy '
+        'accessible without heavy upfront costs.',
+    domain: IdeaDomain.cleanTech,
+    skillsNeeded: [SkillTag.finance, SkillTag.operations, SkillTag.legal],
+    founderId: 'user-006',
+    founderName: 'Ibrahim Sawadogo',
+    backerCount: 6,
+    isBackedByMe: false,
+    createdAt: DateTime.now().subtract(const Duration(days: 30)),
+  ),
+  IdeaModel(
+    id: 'idea-007',
+    title: 'Campus Skills Swap Marketplace',
+    problemStatement: 'Students at ALU have wildly different skill sets — '
+        'one person knows Python, another knows Figma, another is a great writer. '
+        'There is no structured way to trade skills without money changing hands.',
+    domain: IdeaDomain.other,
+    skillsNeeded: [SkillTag.developer, SkillTag.designer],
+    founderId: 'user-007',
+    founderName: 'Priya Nkosi',
+    backerCount: 4,
+    isBackedByMe: false,
+    createdAt: DateTime.now().subtract(const Duration(days: 1)),
+  ),
 ];
