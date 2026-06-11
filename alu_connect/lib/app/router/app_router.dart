@@ -13,14 +13,8 @@ import '../../features/auth/screens/role_selection_screen.dart';
 import '../../features/auth/screens/settings_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/edit_profile_screen.dart';
-<<<<<<< Updated upstream
 import '../../features/create/create.dart';
 import '../../features/communities/communities.dart';
-=======
-import '../../features/communities/screens/communities_screen.dart';
-import '../../features/communities/screens/chat_room_screen.dart';
-import '../../features/create/create.dart';
->>>>>>> Stashed changes
 
 class AppRoutes {
   static const String splash = '/';
