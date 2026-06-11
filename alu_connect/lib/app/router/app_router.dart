@@ -15,7 +15,9 @@ import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/edit_profile_screen.dart';
 import '../../features/create/create.dart';
 import '../../features/communities/communities.dart';
-import '../../features/launchpad/launchpad.dart';
+import '../../features/launchpad/screens/launchpad_screen.dart';
+import '../../features/launchpad/screens/idea_detail_screen.dart';
+import '../../features/launchpad/screens/post_idea_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
