@@ -15,6 +15,9 @@ import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/edit_profile_screen.dart';
 import '../../features/create/create.dart';
 import '../../features/communities/communities.dart';
+import '../../features/launchpad/screens/launchpad_screen.dart';
+import '../../features/launchpad/screens/idea_detail_screen.dart';
+import '../../features/launchpad/screens/post_idea_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -43,17 +46,6 @@ class AppRoutes {
   static const String postIdea = '/launchpad/post-idea';
 }
 
-// placeholder until each member builds their screen
-class _PlaceholderScreen extends StatelessWidget {
-  final String label;
-  const _PlaceholderScreen(this.label);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(label)),
-        body: Center(child: Text('$label – coming soon')),
-      );
-}
 
 final routerProvider = Provider<GoRouter>((ref) {
   // create notifier once — holds current isLoggedIn and fires GoRouter
@@ -135,23 +127,20 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.launchpad,
             name: 'launchpad',
-            builder: (_, _) => const _PlaceholderScreen('Launchpad'),
-            // TODO: Member 5 → LaunchpadScreen()
+            builder: (_, _) => const LaunchpadScreen(),
             routes: [
               GoRoute(
                 path: 'idea/:id',
                 name: 'ideaDetail',
                 builder: (_, state) {
                   final id = state.pathParameters['id'] ?? '';
-                  return _PlaceholderScreen('Idea Detail ($id)');
-                  // TODO: Member 5 → IdeaDetailScreen(id: id)
+                  return IdeaDetailScreen(ideaId: id);
                 },
               ),
               GoRoute(
                 path: 'post-idea',
                 name: 'postIdea',
-                builder: (_, _) => const _PlaceholderScreen('Post Idea'),
-                // TODO: Member 5 → PostIdeaScreen()
+                builder: (_, _) => const PostIdeaScreen(),
               ),
             ],
           ),

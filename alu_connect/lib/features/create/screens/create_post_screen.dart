@@ -204,11 +204,22 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   // ── submit ─────────────────────────────────────────────────────────────────
 
-  void _submit() {
+  Future<void> _submit() async {
     final profile = ref.read(currentProfileProvider);
     if (profile == null) return;
     FocusScope.of(context).unfocus();
-    ref.read(createPostProvider.notifier).submit(profile);
+    final success =
+        await ref.read(createPostProvider.notifier).submit(profile);
+    if (!mounted) return;
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Post published!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      context.go(AppRoutes.home);
+    }
   }
 
   // ── build ──────────────────────────────────────────────────────────────────
@@ -218,16 +229,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     final state = ref.watch(createPostProvider);
     final profile = ref.watch(currentProfileProvider);
 
+    // Show error snackbar if submission fails
     ref.listen<CreatePostState>(createPostProvider, (_, next) {
-      if (next.submitted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Post published successfully!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-        context.go(AppRoutes.home);
-      }
       if (next.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

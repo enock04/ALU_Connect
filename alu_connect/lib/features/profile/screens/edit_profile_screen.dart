@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../auth/providers/profile_provider.dart';
 import '../../auth/widgets/auth_widgets.dart';
@@ -82,7 +83,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
         );
         ref.read(profileNotifierProvider.notifier).clearSaved();
-        Navigator.pop(context);
+        context.pop();
       }
       if (next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -103,7 +104,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded,
               color: ALUColors.textSecondary, size: 22),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
           'Edit Profile',

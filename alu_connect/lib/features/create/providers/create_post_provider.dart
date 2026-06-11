@@ -116,9 +116,10 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void setCompensation(String v) => state = state.copyWith(compensationInfo: v);
 
   // submit ────────────────────────────────────────────────────────────────────
+  // Returns true on success so the screen can navigate immediately.
 
-  Future<void> submit(UserProfile profile) async {
-    if (!state.canSubmit) return;
+  Future<bool> submit(UserProfile profile) async {
+    if (!state.canSubmit) return false;
     state = state.copyWith(submitting: true, clearError: true);
     try {
       await _db.from(SupabaseTables.posts).insert({
@@ -127,6 +128,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
         'author_avatar': profile.avatarUrl,
         'author_role': profile.role,
         'type': state.type.name,
+        'category': _categoryForType(state.type),
         if (state.subtype != null) 'subtype': state.subtype!.name,
         'title': state.title.trim(),
         'body': state.body.trim(),
@@ -142,11 +144,32 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
           'compensation_info': state.compensationInfo!.trim(),
       });
       state = state.copyWith(submitting: false, submitted: true);
-    } catch (_) {
+      return true;
+    } catch (e) {
       state = state.copyWith(
         submitting: false,
         error: 'Could not publish post. Please try again.',
       );
+      return false;
+    }
+  }
+
+  /// Maps PostType to the EventCategory value stored in the feed-facing
+  /// `category` column so the home feed can filter by it.
+  static String _categoryForType(PostType type) {
+    switch (type) {
+      case PostType.schoolEvent:
+        return 'academic';
+      case PostType.jobInternship:
+        return 'career';
+      case PostType.networking:
+        return 'social';
+      case PostType.ventureSupport:
+        return 'venture';
+      case PostType.entertainment:
+        return 'social';
+      case PostType.src:
+        return 'student';
     }
   }
 }
