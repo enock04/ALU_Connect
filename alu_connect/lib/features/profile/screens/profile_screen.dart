@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../../core/models/event_model.dart';
 import '../../auth/providers/profile_provider.dart';
+import '../../feed/providers/feed_provider.dart';
+import '../../feed/widgets/event_card.dart' show categoryColor;
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -379,31 +383,104 @@ class _StatDivider extends StatelessWidget {
 class _MyEventsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rsvpsAsync = ref.watch(myRsvpPostsProvider);
+    // Reads RSVPs from in-memory feed state while the feed is still
+    // mock-data. TODO: switch to myRsvpPostsProvider once the feed
+    // provider writes RSVP inserts/deletes to the Supabase rsvps table.
+    final rsvped = ref
+        .watch(feedProvider)
+        .events
+        .where((e) => e.isUserRsvped)
+        .toList();
 
-    return rsvpsAsync.when(
-      loading: () =>
-          const Center(child: CircularProgressIndicator(color: ALUColors.navy)),
-      error: (e, _) => const Center(
-        child: Text('Could not load events.',
-            style: TextStyle(color: ALUColors.textSecondary)),
+    if (rsvped.isEmpty) {
+      return const _EmptyState(
+        icon: Icons.event_outlined,
+        message: 'No events yet.\nRSVP to events from the home feed.',
+      );
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      itemCount: rsvped.length,
+      itemBuilder: (ctx, i) => _EventModelRow(event: rsvped[i]),
+    );
+  }
+}
+
+class _EventModelRow extends StatelessWidget {
+  final EventModel event;
+  const _EventModelRow({required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = categoryColor(event.category);
+    final dateStr = DateFormat('MMM d, yyyy  ·  h:mm a').format(event.eventDate);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: ALUColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: ALUColors.border),
       ),
-      data: (rsvps) {
-        if (rsvps.isEmpty) {
-          return const _EmptyState(
-            icon: Icons.event_outlined,
-            message: 'No events yet.\nRSVP to events from the home feed.',
-          );
-        }
-        return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          itemCount: rsvps.length,
-          itemBuilder: (ctx, i) {
-            final post = rsvps[i]['posts'] as Map<String, dynamic>? ?? {};
-            return _EventRow(post: post);
-          },
-        );
-      },
+      child: Row(
+        children: [
+          // category colour dot
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.event_rounded, color: color, size: 20),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  event.title,
+                  style: const TextStyle(
+                    color: ALUColors.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '$dateStr · ${event.location}',
+                  style: const TextStyle(
+                    color: ALUColors.textSecondary,
+                    fontSize: 11,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0C2816),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Text(
+              "RSVP'd",
+              style: TextStyle(
+                color: Color(0xFF22A855),
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

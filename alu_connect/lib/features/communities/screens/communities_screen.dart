@@ -119,7 +119,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
                           final room = state.communities[i];
                           return CommunityCard(
                             room: room,
-                            joining: state.joining,
+                            joining: state.joiningRoomId == room.id,
                             onTap: () {
                               ref.read(communitiesProvider.notifier).markRead(room.id);
                               context.push(AppRoutes.chatRoomPath(room.id));

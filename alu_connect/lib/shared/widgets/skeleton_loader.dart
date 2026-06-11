@@ -37,26 +37,26 @@ class FeedCardSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(children: [
-            SkeletonBox(width: 40, height: 40, radius: 20),
-            SizedBox(width: 10),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SkeletonBox(width: 40, height: 40, radius: 20),
+            const SizedBox(width: 10),
+            const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               SkeletonBox(width: 140, height: 12),
               SizedBox(height: 6),
               SkeletonBox(width: 80, height: 10),
             ]),
           ]),
-          SizedBox(height: 12),
-          SkeletonBox(width: double.infinity, height: 14),
-          SizedBox(height: 6),
-          SkeletonBox(width: 200, height: 12),
-          SizedBox(height: 12),
-          SkeletonBox(width: double.infinity, height: 130, radius: 12),
+          const SizedBox(height: 12),
+          const SkeletonBox(width: double.infinity, height: 14),
+          const SizedBox(height: 6),
+          const SkeletonBox(width: 200, height: 12),
+          const SizedBox(height: 12),
+          const SkeletonBox(width: double.infinity, height: 130, radius: 12),
         ],
       ),
     );
@@ -72,6 +72,6 @@ class FeedSkeletonList extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: count,
-        itemBuilder: (_, _) => const FeedCardSkeleton(),
+        itemBuilder: (_, __) => const FeedCardSkeleton(),
       );
 }

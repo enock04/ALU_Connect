@@ -13,6 +13,8 @@ import '../../features/auth/screens/role_selection_screen.dart';
 import '../../features/auth/screens/settings_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/edit_profile_screen.dart';
+import '../../features/create/create.dart';
+import '../../features/communities/communities.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -156,22 +158,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.create,
             name: 'create',
-            builder: (_, _) => const _PlaceholderScreen('Create Post'),
-            // TODO: Member 4 → CreatePostScreen()
+            builder: (_, _) => const CreatePostScreen(),
           ),
           GoRoute(
             path: AppRoutes.communities,
             name: 'communities',
-            builder: (_, _) => const _PlaceholderScreen('Communities'),
-            // TODO: Member 4 → CommunitiesScreen()
+            builder: (_, _) => const CommunitiesScreen(),
             routes: [
               GoRoute(
                 path: 'chat/:id',
                 name: 'chatRoom',
                 builder: (_, state) {
                   final id = state.pathParameters['id'] ?? '';
-                  return _PlaceholderScreen('Chat Room ($id)');
-                  // TODO: Member 4 → ChatRoomScreen(roomId: id)
+                  return ChatRoomScreen(roomId: id);
                 },
               ),
             ],

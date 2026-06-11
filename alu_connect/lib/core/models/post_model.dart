@@ -7,6 +7,7 @@ class PostModel {
   final String authorId;
   final String authorName;
   final String? authorAvatar;
+  final String? authorRole;
   final PostType type;
   final PostSubtype? subtype;
   final String title;
@@ -25,6 +26,7 @@ class PostModel {
     required this.authorId,
     required this.authorName,
     this.authorAvatar,
+    this.authorRole,
     required this.type,
     this.subtype,
     required this.title,
@@ -45,6 +47,7 @@ class PostModel {
       authorId: json['author_id'] as String,
       authorName: json['author_name'] as String? ?? 'Unknown',
       authorAvatar: json['author_avatar'] as String?,
+      authorRole: json['author_role'] as String?,
       type: PostType.values.firstWhere(
         (t) => t.name == (json['type'] as String? ?? 'schoolEvent'),
         orElse: () => PostType.schoolEvent,
@@ -73,6 +76,7 @@ class PostModel {
         'author_id': authorId,
         'author_name': authorName,
         'author_avatar': authorAvatar,
+        'author_role': authorRole,
         'type': type.name,
         'subtype': subtype?.name,
         'title': title,

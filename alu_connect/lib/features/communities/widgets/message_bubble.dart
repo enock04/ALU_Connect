@@ -96,10 +96,14 @@ class DaySeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final msgDay = DateTime(date.year, date.month, date.day);
+    final diff = today.difference(msgDay).inDays;
+
     String label;
-    if (date.year == now.year && date.month == now.month && date.day == now.day) {
+    if (diff == 0) {
       label = 'Today';
-    } else if (date.year == now.year && date.month == now.month && date.day == now.day - 1) {
+    } else if (diff == 1) {
       label = 'Yesterday';
     } else {
       label = DateFormat('d MMM yyyy').format(date);

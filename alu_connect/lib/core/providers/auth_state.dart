@@ -13,7 +13,7 @@ final isLoggedInProvider = Provider<bool>((ref) {
   return auth.when(
     data: (state) => state.session != null,
     loading: () => Supabase.instance.client.auth.currentSession != null,
-    error: (_, _) => false,
+    error: (_, __) => false,
   );
 });
 
@@ -23,7 +23,7 @@ final currentUserProvider = Provider<User?>((ref) {
   return auth.when(
     data: (state) => state.session?.user,
     loading: () => Supabase.instance.client.auth.currentUser,
-    error: (_, _) => null,
+    error: (_, __) => null,
   );
 });
 
